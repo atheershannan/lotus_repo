@@ -1,0 +1,359 @@
+# 🏗️ ARCHITECTURE TEMPLATE
+
+## 🎯 System Architecture Design
+
+**Project Name**: [Project Name from Stage 1]
+**Architecture Version**: 1.0
+**Date**: [Current Date]
+**Status**: Draft
+
+---
+
+## 📊 High-Level Architecture
+
+### System Overview
+[Based on dynamic questions and requirements from Stage 1]
+
+### Architecture Principles
+- **Scalability**: [Scalability approach from dynamic questions]
+- **Security**: [Security approach from dynamic questions]
+- **Maintainability**: [Maintainability approach]
+- **Performance**: [Performance approach from dynamic questions]
+
+---
+
+## 🏛️ System Components
+
+### 1. Frontend Layer
+**Technology**: [Frontend preference from dynamic questions]
+**Purpose**: User interface and client-side logic
+
+**Components**:
+- **UI Components**: React/Vue/Angular components
+- **State Management**: Redux/Vuex/NgRx
+- **Routing**: React Router/Vue Router/Angular Router
+- **HTTP Client**: Axios/Fetch API
+- **Authentication**: JWT token management
+
+**Responsibilities**:
+- User interface rendering
+- User interaction handling
+- Client-side state management
+- API communication
+- Authentication management
+
+### 2. Backend Layer
+**Technology**: [Backend preference from dynamic questions]
+**Purpose**: Business logic and API services
+
+**Components**:
+- **API Gateway**: Request routing and load balancing
+- **Authentication Service**: User authentication and authorization
+- **Business Logic Service**: Core business logic
+- **Data Access Layer**: Database interaction
+- **External Service Integration**: Third-party API integration
+
+**Responsibilities**:
+- API endpoint implementation
+- Business logic processing
+- Data validation and transformation
+- Authentication and authorization
+- External service integration
+
+### 3. Database Layer
+**Technology**: [Database preference from dynamic questions]
+**Purpose**: Data storage and management
+
+**Components**:
+- **Primary Database**: [Primary database choice]
+- **Cache Layer**: Redis for caching
+- **Search Engine**: Elasticsearch for search functionality
+- **File Storage**: AWS S3/Google Cloud Storage
+
+**Responsibilities**:
+- Data persistence
+- Data retrieval and querying
+- Data caching
+- Search functionality
+- File storage
+
+### 4. Infrastructure Layer
+**Technology**: [Hosting preference from dynamic questions]
+**Purpose**: System deployment and management
+
+**Components**:
+- **Web Server**: Nginx/Apache
+- **Application Server**: Node.js/Python/Java server
+- **Load Balancer**: AWS ALB/Google Cloud Load Balancer
+- **CDN**: CloudFront/CloudFlare
+- **Monitoring**: Prometheus/Grafana
+
+**Responsibilities**:
+- Request handling and routing
+- Load balancing and scaling
+- Content delivery
+- System monitoring
+- Logging and debugging
+
+---
+
+## 🔄 Data Flow Architecture
+
+### 1. User Request Flow
+```
+User → Frontend → API Gateway → Backend Service → Database
+```
+
+### 2. Authentication Flow
+```
+User → Frontend → Auth Service → JWT Token → Backend Service
+```
+
+### 3. Real-time Updates Flow
+```
+User Action → Backend Service → WebSocket → Frontend
+```
+
+### 4. External Integration Flow
+```
+Backend Service → External API → Response Processing → Database
+```
+
+---
+
+## 🔐 Security Architecture
+
+### Authentication Strategy
+[Authentication method from dynamic questions]
+
+**Components**:
+- **JWT Tokens**: Stateless authentication
+- **Refresh Tokens**: Token renewal mechanism
+- **Password Hashing**: bcrypt/Argon2
+- **Session Management**: Redis-based sessions
+
+### Authorization Strategy
+[Authorization method from dynamic questions]
+
+**Components**:
+- **Role-Based Access Control**: User roles and permissions
+- **Resource-Level Permissions**: Fine-grained access control
+- **API Key Management**: External API access
+- **Rate Limiting**: Request throttling
+
+### Security Measures
+- **HTTPS**: SSL/TLS encryption
+- **Input Validation**: Request data validation
+- **SQL Injection Prevention**: Parameterized queries
+- **XSS Protection**: Content Security Policy
+- **CSRF Protection**: CSRF tokens
+
+---
+
+## 📈 Scalability Architecture
+
+### Horizontal Scaling
+[Scaling strategy from dynamic questions]
+
+**Components**:
+- **Load Balancer**: Request distribution
+- **Auto Scaling**: Dynamic resource allocation
+- **Database Sharding**: Data partitioning
+- **Microservices**: Service decomposition
+
+### Vertical Scaling
+**Components**:
+- **Resource Optimization**: CPU/Memory optimization
+- **Database Optimization**: Query optimization
+- **Caching Strategy**: Multi-level caching
+- **CDN**: Content delivery optimization
+
+### Performance Optimization
+- **Database Indexing**: Query performance
+- **Caching Layers**: Redis/Memcached
+- **CDN**: Static content delivery
+- **Compression**: Gzip/Brotli compression
+
+---
+
+## 🔌 Integration Architecture
+
+### External Services
+[Integration needs from dynamic questions]
+
+**Payment Processing**:
+- **Service**: [Payment service from dynamic questions]
+- **Integration**: REST API/Webhook
+- **Security**: PCI compliance
+
+**Email Services**:
+- **Service**: [Email service from dynamic questions]
+- **Integration**: SMTP/API
+- **Features**: Templates, tracking, analytics
+
+**File Storage**:
+- **Service**: [File storage from dynamic questions]
+- **Integration**: SDK/API
+- **Features**: Upload, download, CDN
+
+**Third-party APIs**:
+- **APIs**: [Third-party APIs from dynamic questions]
+- **Integration**: REST/GraphQL
+- **Authentication**: API keys/OAuth
+
+---
+
+## 🏗️ Deployment Architecture
+
+### Environment Strategy
+**Development**:
+- **Purpose**: Local development
+- **Resources**: Minimal resources
+- **Database**: Local/Development database
+
+**Staging**:
+- **Purpose**: Testing and validation
+- **Resources**: Production-like resources
+- **Database**: Staging database
+
+**Production**:
+- **Purpose**: Live application
+- **Resources**: Full resources
+- **Database**: Production database
+
+### Deployment Strategy
+[Hosting preference from dynamic questions]
+
+**Containerization**:
+- **Docker**: Application containerization
+- **Docker Compose**: Local development
+- **Kubernetes**: Production orchestration
+
+**CI/CD Pipeline**:
+- **Source Control**: Git/GitHub
+- **Build**: Automated builds
+- **Test**: Automated testing
+- **Deploy**: Automated deployment
+
+**Monitoring**:
+- **Application Monitoring**: Performance metrics
+- **Infrastructure Monitoring**: Resource usage
+- **Log Management**: Centralized logging
+- **Alerting**: Error notifications
+
+---
+
+## 📊 Technology Stack
+
+### Frontend Stack
+- **Framework**: [Frontend preference from dynamic questions]
+- **State Management**: Redux/Vuex/NgRx
+- **UI Library**: Material-UI/Ant Design/Chakra UI
+- **Build Tool**: Webpack/Vite
+- **Testing**: Jest/Cypress
+
+### Backend Stack
+- **Runtime**: [Backend preference from dynamic questions]
+- **Framework**: Express.js/NestJS/FastAPI/Django
+- **Database ORM**: Prisma/TypeORM/Sequelize
+- **Authentication**: Passport.js/Auth0
+- **Testing**: Jest/Pytest
+
+### Database Stack
+- **Primary Database**: [Database preference from dynamic questions]
+- **Cache**: Redis
+- **Search**: Elasticsearch
+- **File Storage**: AWS S3/Google Cloud Storage
+
+### Infrastructure Stack
+- **Cloud Provider**: [Hosting preference from dynamic questions]
+- **Containerization**: Docker
+- **Orchestration**: Kubernetes
+- **Monitoring**: Prometheus/Grafana
+- **CI/CD**: GitHub Actions/GitLab CI
+
+---
+
+## 🔄 API Architecture
+
+### API Design Principles
+- **RESTful**: REST API design
+- **Stateless**: No server-side state
+- **Cacheable**: HTTP caching
+- **Uniform Interface**: Consistent API design
+
+### API Gateway
+**Functions**:
+- **Request Routing**: Route requests to services
+- **Authentication**: Centralized authentication
+- **Rate Limiting**: Request throttling
+- **Load Balancing**: Distribute load
+
+### Microservices Architecture
+**Services**:
+- **User Service**: User management
+- **Auth Service**: Authentication
+- **Feature 1 Service**: [Feature 1 from Stage 1]
+- **Feature 2 Service**: [Feature 2 from Stage 1]
+- **Feature 3 Service**: [Feature 3 from Stage 1]
+
+---
+
+## 📈 Monitoring and Observability
+
+### Application Monitoring
+- **Performance Metrics**: Response time, throughput
+- **Error Tracking**: Error rates, exceptions
+- **User Analytics**: User behavior, usage patterns
+- **Business Metrics**: Key performance indicators
+
+### Infrastructure Monitoring
+- **Resource Usage**: CPU, memory, disk
+- **Network**: Bandwidth, latency
+- **Database**: Query performance, connections
+- **External Services**: API response times
+
+### Logging Strategy
+- **Structured Logging**: JSON-formatted logs
+- **Log Levels**: Debug, Info, Warn, Error
+- **Centralized Logging**: ELK stack
+- **Log Rotation**: Automated log management
+
+---
+
+## 🚨 Disaster Recovery
+
+### Backup Strategy
+- **Database Backups**: Daily automated backups
+- **File Backups**: Regular file system backups
+- **Configuration Backups**: Infrastructure backups
+- **Code Backups**: Version control
+
+### Recovery Procedures
+- **RTO**: Recovery Time Objective
+- **RPO**: Recovery Point Objective
+- **Failover**: Automatic failover
+- **Rollback**: Quick rollback procedures
+
+---
+
+## 📚 Documentation
+
+### Architecture Documentation
+- **System Overview**: High-level architecture
+- **Component Details**: Detailed component descriptions
+- **API Documentation**: Complete API reference
+- **Deployment Guide**: Step-by-step deployment
+
+### Maintenance Documentation
+- **Monitoring Guide**: How to monitor the system
+- **Troubleshooting**: Common issues and solutions
+- **Scaling Guide**: How to scale the system
+- **Security Guide**: Security best practices
+
+---
+
+**Document Status**: [Draft/Review/Approved]
+**Last Updated**: [Date]
+**Next Review**: [Date]
+**Approved By**: [Name and Title]

@@ -1,0 +1,111 @@
+# 🎯 STAGE 1: REQUIREMENTS & PLANNING
+
+## 📋 Stage Overview
+
+**Purpose**: Define project scope, requirements, and user stories
+**Duration**: 2-4 hours
+**Dependencies**: None (Starting stage)
+**Outputs**: Requirements document, User stories, Project scope definition
+
+## 🧬 Dynamic Question Phase
+
+Before we start this stage, please answer the following questions:
+
+### 1️⃣ Project Foundation
+**What is the name and type of your project?**
+- Project name: [Your project name]
+- Project type: [Web app, Mobile app, Desktop app, API, etc.]
+- Brief description: [1-2 sentences describing what you're building]
+
+### 2️⃣ Target Audience
+**Who will use this application?**
+- Primary users: [Who are your main users?]
+- User demographics: [Age, technical skill level, etc.]
+- Use context: [When and where will they use it?]
+
+### 3️⃣ Core Features
+**What are the main features you want to build?**
+- Feature 1: [Primary feature description]
+- Feature 2: [Secondary feature description]
+- Feature 3: [Additional feature description]
+- [Add more features as needed]
+
+### 4️⃣ Success Criteria
+**How will you measure success?**
+- Primary goal: [Main objective]
+- Success metrics: [How will you measure success?]
+- Timeline: [When do you want to complete this?]
+
+### 5️⃣ Constraints & Assumptions
+**What limitations or assumptions should we consider?**
+- Technical constraints: [Any technical limitations?]
+- Budget constraints: [Budget limitations?]
+- Time constraints: [Deadline requirements?]
+- Other constraints: [Any other limitations?]
+
+---
+
+## 🎯 Stage Objectives
+
+1. **Define Project Scope** - Clear boundaries and objectives
+2. **Gather Requirements** - Functional and non-functional requirements
+3. **Create User Stories** - User-centered feature descriptions
+4. **Establish Success Criteria** - Measurable project outcomes
+5. **Document Assumptions** - Key assumptions and constraints
+
+## 📊 Expected Outputs
+
+### Requirements Document
+- Functional requirements
+- Non-functional requirements
+- Constraints and assumptions
+- Success criteria
+
+### User Stories
+- User personas
+- User story templates
+- Acceptance criteria
+- Story prioritization
+
+### Project Scope
+- In-scope features
+- Out-of-scope features
+- Timeline estimates
+- Resource requirements
+
+## 🔄 Process Flow
+
+1. **Answer Dynamic Questions** ← You are here
+2. **Generate Requirements Document**
+3. **Create User Stories**
+4. **Define Project Scope**
+5. **Validate and Review**
+6. **Mark Stage Complete**
+
+## ✅ Success Criteria
+
+- [ ] All dynamic questions answered
+- [ ] Requirements document generated
+- [ ] User stories created
+- [ ] Project scope defined
+- [ ] Stakeholder approval (if applicable)
+- [ ] Stage marked complete in ROADMAP.md
+
+## 🚨 Common Pitfalls
+
+- **Vague Requirements**: Be specific about what you want
+- **Missing User Context**: Understand your users' needs
+- **Unrealistic Scope**: Keep initial scope manageable
+- **Unclear Success Criteria**: Define measurable outcomes
+
+## 🔄 Next Steps
+
+After completing this stage:
+1. Review generated requirements
+2. Validate with stakeholders
+3. Mark stage complete in ROADMAP.md
+4. Proceed to Stage 2: System & Architecture
+
+---
+
+**Ready to start? Answer the dynamic questions above to begin! 🚀**

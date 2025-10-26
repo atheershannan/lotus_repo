@@ -1,0 +1,119 @@
+# 🗄️ STAGE 6: DATABASE DESIGN
+
+## 📋 Stage Overview
+
+**Purpose**: Design and implement database schema
+**Duration**: 4-6 hours
+**Dependencies**: Stage 2 ✅ Complete
+**Outputs**: Database schema, Migrations, Data models
+
+## 🧬 Dynamic Question Phase
+
+Before we start this stage, please answer the following questions:
+
+### 1️⃣ Database Requirements
+**What are your database requirements and constraints?**
+- Database type: [PostgreSQL, MySQL, MongoDB, etc.]
+- Data volume: [Expected data size and growth]
+- Performance needs: [Query performance requirements]
+- Scalability: [Horizontal vs vertical scaling needs]
+
+### 2️⃣ Data Relationships
+**What are the relationships between your data entities?**
+- Entity relationships: [One-to-one, one-to-many, many-to-many]
+- Data integrity: [Referential integrity requirements]
+- Data consistency: [ACID compliance needs]
+- Data validation: [Database-level validation requirements]
+
+### 3️⃣ Data Access Patterns
+**How will your application access the data?**
+- Query patterns: [Read-heavy, write-heavy, balanced]
+- Indexing strategy: [Primary keys, foreign keys, search indexes]
+- Caching needs: [Query result caching, session caching]
+- Data archiving: [Data retention and archiving needs]
+
+### 4️⃣ Security and Compliance
+**What are your data security and compliance requirements?**
+- Data encryption: [At rest, in transit, field-level encryption]
+- Access control: [Role-based access, row-level security]
+- Compliance: [GDPR, HIPAA, SOX, etc.]
+- Audit logging: [Data change tracking, access logging]
+
+### 5️⃣ Backup and Recovery
+**What are your backup and recovery requirements?**
+- Backup frequency: [Daily, hourly, real-time]
+- Recovery time: [RTO requirements]
+- Recovery point: [RPO requirements]
+- Disaster recovery: [Cross-region replication, failover]
+
+---
+
+## 🎯 Stage Objectives
+
+1. **Design Database Schema** - Create comprehensive database schema
+2. **Define Data Models** - Design data models and relationships
+3. **Create Migrations** - Database migration scripts
+4. **Plan Indexing Strategy** - Optimize query performance
+5. **Implement Security** - Database security measures
+6. **Set up Backup** - Backup and recovery procedures
+
+## 📊 Expected Outputs
+
+### Database Schema
+- Complete database schema
+- Table definitions
+- Relationship diagrams
+- Constraint definitions
+
+### Data Models
+- Entity models
+- Data validation rules
+- Business logic constraints
+- Data transformation rules
+
+### Migrations
+- Database migration scripts
+- Rollback procedures
+- Data seeding scripts
+- Version control
+
+## 🔄 Process Flow
+
+1. **Answer Dynamic Questions** ← You are here
+2. **Design Database Schema**
+3. **Create Data Models**
+4. **Plan Indexing Strategy**
+5. **Create Migration Scripts**
+6. **Implement Security Measures**
+7. **Set up Backup Procedures**
+8. **Mark Stage Complete**
+
+## ✅ Success Criteria
+
+- [ ] All dynamic questions answered
+- [ ] Database schema designed
+- [ ] Data models created
+- [ ] Migration scripts written
+- [ ] Indexing strategy planned
+- [ ] Security measures implemented
+- [ ] Backup procedures set up
+- [ ] Stage marked complete in ROADMAP.md
+
+## 🚨 Common Pitfalls
+
+- **Poor Schema Design**: Plan schema carefully
+- **Missing Indexes**: Optimize query performance
+- **Security Gaps**: Implement proper security
+- **No Backup Strategy**: Plan for data recovery
+
+## 🔄 Next Steps
+
+After completing this stage:
+1. Review database design
+2. Validate data models
+3. Mark stage complete in ROADMAP.md
+4. Proceed to Stage 7: QA & Testing
+
+---
+
+**Ready to start? Answer the dynamic questions above to begin! 🚀**

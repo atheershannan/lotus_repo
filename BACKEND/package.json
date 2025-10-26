@@ -1,0 +1,59 @@
+{
+  "name": "corporate-assistant-backend",
+  "version": "1.0.0",
+  "description": "Corporate Learning Assistant Backend API",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "lint": "eslint src/",
+    "lint:fix": "eslint src/ --fix",
+    "db:migrate": "prisma migrate dev",
+    "db:generate": "prisma generate",
+    "db:seed": "node src/database/seed.js",
+    "db:studio": "prisma studio"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "helmet": "^7.1.0",
+    "dotenv": "^16.3.1",
+    "prisma": "^5.7.1",
+    "@prisma/client": "^5.7.1",
+    "@supabase/supabase-js": "^2.38.4",
+    "joi": "^17.11.0",
+    "winston": "^3.11.0",
+    "express-rate-limit": "^7.1.5",
+    "jsonwebtoken": "^9.0.2",
+    "bcryptjs": "^2.4.3",
+    "openai": "^4.20.1",
+    "redis": "^4.6.10",
+    "axios": "^1.6.2",
+    "multer": "^1.4.5-lts.1",
+    "compression": "^1.7.4",
+    "express-validator": "^7.0.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2",
+    "jest": "^29.7.0",
+    "supertest": "^6.3.3",
+    "eslint": "^8.55.0",
+    "@types/jest": "^29.5.8",
+    "jest-environment-node": "^29.7.0"
+  },
+  "keywords": [
+    "corporate",
+    "learning",
+    "assistant",
+    "rag",
+    "knowledge-graph",
+    "ai"
+  ],
+  "author": "Corporate Learning Team",
+  "license": "MIT"
+}
+
+

@@ -1,0 +1,66 @@
+{
+  "name": "corporate-learning-assistant",
+  "version": "1.0.0",
+  "description": "AI-powered corporate learning assistant with RAG and knowledge graphs",
+  "main": "index.js",
+  "scripts": {
+    "install:all": "npm run install:backend && npm run install:frontend",
+    "install:backend": "cd BACKEND && npm install",
+    "install:frontend": "cd FRONTEND && npm install",
+    "start": "concurrently \"npm run start:backend\" \"npm run start:frontend\"",
+    "start:backend": "cd BACKEND && npm run dev",
+    "start:frontend": "cd FRONTEND && npm start",
+    "build": "npm run build:frontend",
+    "build:frontend": "cd FRONTEND && npm run build",
+    "test": "npm run test:backend && npm run test:frontend",
+    "test:backend": "cd BACKEND && npm test",
+    "test:frontend": "cd FRONTEND && npm test",
+    "lint": "npm run lint:backend && npm run lint:frontend",
+    "lint:backend": "cd BACKEND && npm run lint",
+    "lint:frontend": "cd FRONTEND && npm run lint",
+    "lint:fix": "npm run lint:fix:backend && npm run lint:fix:frontend",
+    "lint:fix:backend": "cd BACKEND && npm run lint:fix",
+    "lint:fix:frontend": "cd FRONTEND && npm run lint:fix",
+    "db:migrate": "cd BACKEND && npm run db:migrate",
+    "db:generate": "cd BACKEND && npm run db:generate",
+    "db:seed": "cd BACKEND && npm run db:seed",
+    "db:studio": "cd BACKEND && npm run db:studio",
+    "setup": "npm run install:all && npm run db:migrate && npm run db:seed",
+    "dev": "npm run start",
+    "clean": "npm run clean:backend && npm run clean:frontend",
+    "clean:backend": "cd BACKEND && rm -rf node_modules package-lock.json",
+    "clean:frontend": "cd FRONTEND && rm -rf node_modules package-lock.json",
+    "reset": "npm run clean && npm run setup"
+  },
+  "keywords": [
+    "corporate",
+    "learning",
+    "assistant",
+    "rag",
+    "knowledge-graph",
+    "ai",
+    "react",
+    "nodejs",
+    "postgresql",
+    "supabase"
+  ],
+  "author": "Corporate Learning Team",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-org/corporate-learning-assistant.git"
+  },
+  "bugs": {
+    "url": "https://github.com/your-org/corporate-learning-assistant/issues"
+  },
+  "homepage": "https://github.com/your-org/corporate-learning-assistant#readme"
+}
+
+

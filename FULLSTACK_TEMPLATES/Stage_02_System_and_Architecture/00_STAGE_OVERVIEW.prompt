@@ -1,0 +1,116 @@
+# 🏗️ STAGE 2: SYSTEM & ARCHITECTURE
+
+## 📋 Stage Overview
+
+**Purpose**: Design system architecture and select technology stack
+**Duration**: 3-5 hours
+**Dependencies**: Stage 1 ✅ Complete
+**Outputs**: Architecture diagrams, Tech stack, ENDPOINTS_SPEC.md
+
+## 🧬 Dynamic Question Phase
+
+Before we start this stage, please answer the following questions:
+
+### 1️⃣ Technology Preferences
+**What are your technology preferences and constraints?**
+- Backend preference: [Express.js, NestJS, FastAPI, Django, Spring Boot, etc.]
+- Frontend preference: [React, Vue.js, Angular, Svelte, etc.]
+- Database preference: [PostgreSQL, MySQL, MongoDB, Redis, etc.]
+- Hosting preference: [AWS, Google Cloud, Azure, Vercel, Netlify, etc.]
+
+### 2️⃣ Scalability Requirements
+**What are your scalability and performance requirements?**
+- Expected users: [Number of concurrent users]
+- Data volume: [Expected data size and growth]
+- Performance needs: [Response time requirements]
+- Scaling strategy: [Horizontal, vertical, or both]
+
+### 3️⃣ Security Considerations
+**What security requirements do you have?**
+- Authentication: [JWT, OAuth, Session-based, etc.]
+- Authorization: [Role-based, Attribute-based, etc.]
+- Data protection: [Encryption, GDPR compliance, etc.]
+- Security standards: [Any specific compliance requirements]
+
+### 4️⃣ Integration Needs
+**What external services or APIs do you need to integrate?**
+- Payment processing: [Stripe, PayPal, etc.]
+- Email services: [SendGrid, Mailgun, etc.]
+- File storage: [AWS S3, Google Cloud Storage, etc.]
+- Third-party APIs: [List any external APIs needed]
+
+### 5️⃣ Development Constraints
+**What are your development team constraints?**
+- Team size: [Number of developers]
+- Skill level: [Beginner, Intermediate, Advanced]
+- Timeline: [Project deadline]
+- Budget: [Budget constraints]
+
+---
+
+## 🎯 Stage Objectives
+
+1. **Design System Architecture** - High-level system design
+2. **Select Technology Stack** - Choose appropriate technologies
+3. **Define API Endpoints** - Create comprehensive API specification
+4. **Plan Security Architecture** - Design security measures
+5. **Plan Integration Strategy** - Define external service integrations
+
+## 📊 Expected Outputs
+
+### Architecture Design
+- System architecture diagram
+- Component relationships
+- Data flow diagrams
+- Security architecture
+
+### Technology Stack
+- Backend technologies
+- Frontend technologies
+- Database technologies
+- Deployment technologies
+
+### API Specification
+- Complete ENDPOINTS_SPEC.md
+- Request/response schemas
+- Authentication requirements
+- Error handling
+
+## 🔄 Process Flow
+
+1. **Answer Dynamic Questions** ← You are here
+2. **Generate Architecture Design**
+3. **Select Technology Stack**
+4. **Create ENDPOINTS_SPEC.md**
+5. **Validate and Review**
+6. **Mark Stage Complete**
+
+## ✅ Success Criteria
+
+- [ ] All dynamic questions answered
+- [ ] Architecture diagrams created
+- [ ] Technology stack selected
+- [ ] ENDPOINTS_SPEC.md generated and validated
+- [ ] Security architecture planned
+- [ ] Integration strategy defined
+- [ ] Stage marked complete in ROADMAP.md
+
+## 🚨 Common Pitfalls
+
+- **Over-engineering**: Keep architecture simple for initial version
+- **Technology Mismatch**: Ensure technologies work well together
+- **Missing Security**: Don't overlook security considerations
+- **Incomplete API Spec**: Ensure all endpoints are documented
+
+## 🔄 Next Steps
+
+After completing this stage:
+1. Review generated architecture
+2. Validate technology choices
+3. Approve ENDPOINTS_SPEC.md
+4. Mark stage complete in ROADMAP.md
+5. Proceed to Stage 3: Project Flow
+
+---
+
+**Ready to start? Answer the dynamic questions above to begin! 🚀**
