@@ -38,14 +38,26 @@ This occurred because the Supabase client was being initialized unconditionally 
    - Works exactly as before
    - Full Supabase authentication functionality
 
+## Additional Issue Found and Fixed
+
+### Issue 2: Invalid JavaScript Syntax in `mock.js`
+The file `BACKEND/src/config/mock.js` was using Markdown comment syntax (`#`) instead of JavaScript comments (`//`), causing Jest to fail parsing.
+
+### Fix for Issue 2
+- Converted Markdown comments to JavaScript comments
+- Restructured the file to use proper JavaScript module exports
+- Fixed variable scope issues
+
 ## Files Modified
-- `BACKEND/src/middleware/auth.js`
-- `BACKEND/src/routes/auth.js`
-- `BACKEND/src/tests/setup.js`
+- `BACKEND/src/middleware/auth.js` - Supabase conditional initialization
+- `BACKEND/src/routes/auth.js` - Supabase conditional initialization  
+- `BACKEND/src/tests/setup.js` - Environment variables setup
+- `BACKEND/src/config/mock.js` - Fixed JavaScript syntax
 
 ## Testing
 The fixes ensure that:
 - Tests can run without Supabase configuration
 - Tests that expect 401 errors will still receive them
 - The server initializes successfully even without Supabase
+- Mock configuration file is valid JavaScript
 
