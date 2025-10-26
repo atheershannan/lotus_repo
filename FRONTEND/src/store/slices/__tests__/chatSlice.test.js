@@ -61,10 +61,10 @@ describe('chatSlice', () => {
   });
 
   it('should handle setFeedback', () => {
-    const feedback = { messageId: 'msg-1', rating: 'positive', comment: 'Great!' };
+    const feedback = { messageId: 'msg-1', feedback: { rating: 'positive', comment: 'Great!' } };
     store.dispatch(setFeedback(feedback));
     const state = store.getState().chat;
-    expect(state.feedback['msg-1']).toEqual(feedback);
+    expect(state.feedback['msg-1']).toEqual(feedback.feedback);
   });
 });
 

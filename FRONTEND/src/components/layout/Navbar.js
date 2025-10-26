@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { Box, AppBar, Toolbar, Typography, IconButton, Avatar, Menu, MenuItem } from '@mui/material';
 import { AccountCircle, Settings, Logout } from '@mui/icons-material';
 import { useDispatch } from 'react-redux';
-import { logout } from '../store/slices/authSlice';
+import { logout } from '../../store/slices/authSlice';
 
 const Navbar = () => {
   const dispatch = useDispatch();
