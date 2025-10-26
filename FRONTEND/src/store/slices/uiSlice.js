@@ -4,6 +4,7 @@ const initialState = {
   theme: 'light',
   sidebarOpen: true,
   notifications: [],
+  error: null,
   modals: {
     settings: false,
     analytics: false,
@@ -52,6 +53,12 @@ const uiSlice = createSlice({
     setLoading: (state, action) => {
       const { type, loading } = action.payload;
       state.loading[type] = loading;
+    },
+    setError: (state, action) => {
+      state.error = action.payload;
+    },
+    clearError: (state) => {
+      state.error = null;
     }
   }
 });
@@ -65,7 +72,9 @@ export const {
   clearNotifications, 
   openModal, 
   closeModal, 
-  setLoading 
+  setLoading,
+  setError,
+  clearError
 } = uiSlice.actions;
 
 export default uiSlice.reducer;
