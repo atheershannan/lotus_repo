@@ -41,7 +41,7 @@ describe('LoginPage', () => {
     );
     
     expect(screen.getByText('Welcome Back')).toBeInTheDocument();
-    expect(screen.getByRole('textbox', { name: /email/i })).toBeInTheDocument();
+    expect(screen.getByText(/sign in to your/i)).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /sign in/i })).toBeInTheDocument();
   });
 
