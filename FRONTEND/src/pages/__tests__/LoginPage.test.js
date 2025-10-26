@@ -75,11 +75,9 @@ describe('LoginPage', () => {
     );
     
     const emailInput = screen.getByRole('textbox', { name: /email/i });
-    const passwordInput = screen.getByPlaceholderText(/password/i) || screen.getByRole('button', { name: /password/i });
     const submitButton = screen.getByRole('button', { name: /sign in/i });
     
     fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
-    // Note: password handling may vary in tests
     fireEvent.click(submitButton);
   });
 

@@ -33,7 +33,14 @@ describe('authSlice', () => {
     expect(initialState.user).toBeNull();
     
     // Action creator exists
-    expect(typeof authSlice.actions.setUser).toBe('function');
+    const { setUser } = authSlice.actions;
+    expect(typeof setUser).toBe('function');
+    
+    // Dispatch the action
+    store.dispatch(setUser(mockUser));
+    const newState = store.getState().auth;
+    expect(newState.user).toEqual(mockUser);
+    expect(newState.isAuthenticated).toBe(true);
   });
 });
 
