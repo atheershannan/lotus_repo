@@ -5,14 +5,29 @@ const { PrismaClient } = require('@prisma/client');
 const { asyncHandler } = require('../middleware/auth');
 
 const prisma = new PrismaClient();
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL,
-  process.env.SUPABASE_SERVICE_ROLE_KEY
-);
+
+// Initialize Supabase client conditionally
+let supabase = null;
+if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY) {
+  supabase = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL,
+    process.env.SUPABASE_SERVICE_ROLE_KEY
+  );
+} else {
+  console.log('⚠️  Supabase disabled in auth routes (mock mode)');
+}
 
 // POST /api/auth/login - Login user
 router.post('/login', asyncHandler(async (req, res) => {
   const { email, password } = req.body;
+
+  // Check if Supabase is configured
+  if (!supabase) {
+    return res.status(503).json({
+      success: false,
+      error: 'Authentication service not configured'
+    });
+  }
 
   try {
     // Authenticate with Supabase
@@ -83,6 +98,14 @@ router.post('/login', asyncHandler(async (req, res) => {
 router.post('/logout', asyncHandler(async (req, res) => {
   const { refreshToken } = req.body;
 
+  // Check if Supabase is configured
+  if (!supabase) {
+    return res.status(503).json({
+      success: false,
+      error: 'Authentication service not configured'
+    });
+  }
+
   try {
     if (refreshToken) {
       await supabase.auth.signOut({ refreshToken });
@@ -106,6 +129,14 @@ router.post('/logout', asyncHandler(async (req, res) => {
 // POST /api/auth/refresh - Refresh access token
 router.post('/refresh', asyncHandler(async (req, res) => {
   const { refreshToken } = req.body;
+
+  // Check if Supabase is configured
+  if (!supabase) {
+    return res.status(503).json({
+      success: false,
+      error: 'Authentication service not configured'
+    });
+  }
 
   try {
     const { data, error } = await supabase.auth.refreshSession({
@@ -150,6 +181,14 @@ router.get('/me', asyncHandler(async (req, res) => {
     return res.status(401).json({
       success: false,
       error: 'Access token required'
+    });
+  }
+
+  // Check if Supabase is configured
+  if (!supabase) {
+    return res.status(503).json({
+      success: false,
+      error: 'Authentication service not configured'
     });
   }
 

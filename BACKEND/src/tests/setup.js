@@ -1,5 +1,9 @@
 const { PrismaClient } = require('@prisma/client');
 
+// Set mock environment variables for Supabase to prevent initialization errors
+process.env.NEXT_PUBLIC_SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
+process.env.SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY || '';
+
 const prisma = new PrismaClient();
 
 // Global test setup

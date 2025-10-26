@@ -3,10 +3,17 @@ const { createClient } = require('@supabase/supabase-js');
 const { PrismaClient } = require('@prisma/client');
 
 const prisma = new PrismaClient();
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL,
-  process.env.SUPABASE_SERVICE_ROLE_KEY
-);
+
+// Initialize Supabase client conditionally
+let supabase = null;
+if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY) {
+  supabase = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL,
+    process.env.SUPABASE_SERVICE_ROLE_KEY
+  );
+} else {
+  console.log('⚠️  Supabase disabled in auth middleware (mock mode)');
+}
 
 // Middleware to verify Supabase JWT token
 const authenticateToken = async (req, res, next) => {
@@ -16,6 +23,12 @@ const authenticateToken = async (req, res, next) => {
 
     if (!token) {
       return res.status(401).json({ error: 'Access token required' });
+    }
+
+    // If Supabase is not configured, skip authentication in test/mock mode
+    if (!supabase) {
+      console.log('⚠️  Authentication skipped (Supabase not configured)');
+      return res.status(401).json({ error: 'Authentication not configured' });
     }
 
     // Verify token with Supabase
