@@ -1,11 +1,12 @@
 name: Build and Deploy Docker Images
 
 on:
-  push:
-    branches: [ main ]
-    tags:
-      - 'v*'
   workflow_dispatch:
+  # Disabled until Docker Hub is configured
+  # push:
+  #   branches: [ main ]
+  #   tags:
+  #     - 'v*'
 
 env:
   REGISTRY: docker.io

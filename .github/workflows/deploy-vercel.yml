@@ -1,11 +1,12 @@
 name: Deploy to Vercel
 
 on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
   workflow_dispatch:
+  # Disabled until Vercel is configured
+  # push:
+  #   branches: [ main ]
+  # pull_request:
+  #   branches: [ main ]
 
 jobs:
   # Build and test
