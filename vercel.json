@@ -1,8 +1,8 @@
 {
-  "buildCommand": "cd FRONTEND && npm install && npm run build",
+  "buildCommand": "cd FRONTEND && npm ci && npm run build",
   "outputDirectory": "FRONTEND/build",
-  "routes": [
-    { "handle": "filesystem" },
-    { "src": "/(.*)", "dest": "/FRONTEND/build/$1" }
-  ]
+  "installCommand": "cd FRONTEND && npm ci",
+  "framework": null,
+  "devCommand": "cd FRONTEND && npm start"
 }
+
