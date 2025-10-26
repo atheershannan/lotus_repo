@@ -1,40 +1,8 @@
 {
-  "buildCommand": "cd FRONTEND && npm ci && npm run build",
+  "buildCommand": "cd FRONTEND && npm install && npm run build",
   "outputDirectory": "FRONTEND/build",
-  "framework": "create-react-app",
-  "installCommand": "cd FRONTEND && npm ci",
-  "devCommand": "cd FRONTEND && npm start",
-  "headers": [
-    {
-      "source": "/(.*)",
-      "headers": [
-        {
-          "key": "X-Frame-Options",
-          "value": "DENY"
-        },
-        {
-          "key": "X-Content-Type-Options",
-          "value": "nosniff"
-        },
-        {
-          "key": "X-XSS-Protection",
-          "value": "1; mode=block"
-        },
-        {
-          "key": "Referrer-Policy",
-          "value": "strict-origin-when-cross-origin"
-        }
-      ]
-    }
-  ],
-  "rewrites": [
-    {
-      "source": "/(.*)",
-      "destination": "/index.html"
-    }
-  ],
-  "env": {
-    "REACT_APP_API_URL": "@api_url"
-  }
+  "routes": [
+    { "handle": "filesystem" },
+    { "src": "/(.*)", "dest": "/FRONTEND/build/$1" }
+  ]
 }
-
