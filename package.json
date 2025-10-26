@@ -7,6 +7,6 @@
     "start": "cd FRONTEND && npm start"
   },
   "engines": {
-    "node": "18.x"
+    "node": "22.x"
   }
 }
