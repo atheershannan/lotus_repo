@@ -21,7 +21,7 @@ import ProfilePage from './pages/ProfilePage';
 import NotFoundPage from './pages/NotFoundPage';
 
 // Hooks
-import { useAuth } from './hooks/useAuth';
+import useAuth from './hooks/useAuth';
 
 function App() {
   const { isLoading, isAuthenticated } = useAuth();
