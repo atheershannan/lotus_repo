@@ -4,78 +4,56 @@ const { authenticateToken, asyncHandler, validateRequest } = require('../middlew
 const ragService = require('../services/ragService');
 const { PrismaClient } = require('@prisma/client');
 const Joi = require('joi');
+const OpenAI = require('openai');
 
 const prisma = new PrismaClient();
 
-// Simple chat endpoint with JWT token validation (secure mock mode)
-router.post('/simple', asyncHandler(async (req, res) => {
-  const { message, sessionId = 'default-session' } = req.body;
-  
-  if (!message) {
-    return res.status(400).json({
-      success: false,
-      error: 'Message is required'
-    });
-  }
-
-  // Extract and validate JWT token from Authorization header
-  const authHeader = req.headers['authorization'];
-  let userContext = {
-    user_id: 'demo-user-123',
-    tenant_id: 'default-tenant',
-    role: 'trainer'
-  };
-
-  if (authHeader && authHeader.startsWith('Bearer ')) {
-    const token = authHeader.split(' ')[1];
-    try {
-      // In real implementation, validate JWT here
-      // For mock mode, just use demo context
-      console.log('🔐 Token received (mock validation)');
-    } catch (error) {
-      return res.status(401).json({
-        success: false,
-        error: 'Invalid or expired token'
-      });
-    }
-  }
-
-  console.log('🤖 Received chat message:', message);
-  console.log('👤 User context:', userContext);
-
-  // Call RAG service with user context (internal microservice call)
+// Simple chat endpoint with OpenAI integration for the chat widget
+router.post('/', asyncHandler(async (req, res) => {
   try {
-    const ragResponse = await ragService.generateRAGResponse(
-      message,
-      userContext.user_id,
-      sessionId,
-      {
-        userId: userContext.user_id,
-        tenantId: userContext.tenant_id,
-        role: userContext.role
-      }
-    );
-
-    res.json({
-      success: true,
-      data: {
-        message: ragResponse.response,
-        confidence: ragResponse.confidence,
-        userId: userContext.user_id,
-        tenantId: userContext.tenant_id
-      }
-    });
-  } catch (error) {
-    console.error('Chat error:', error);
+    const { message } = req.body;
     
-    // Fallback response
-    res.json({
-      success: true,
-      data: {
-        message: `Mock response for: "${message}". This is a test response to verify the chat system is working correctly.`,
-        confidence: 0.85,
-        userId: userContext.user_id
-      }
+    if (!message) {
+      return res.status(400).json({ error: 'Message is required' });
+    }
+
+    // Initialize OpenAI client
+    const openai = new OpenAI({
+      apiKey: process.env.OPENAI_API_KEY,
+    });
+
+    console.log('💬 Received chat message:', message);
+
+    // Call OpenAI API
+    const completion = await openai.chat.completions.create({
+      model: 'gpt-4o-mini',
+      messages: [
+        {
+          role: 'system',
+          content: 'You are a friendly Learning Assistant. Help users with their learning questions, provide explanations, and guide them through educational content. Be concise, helpful, and encouraging.'
+        },
+        {
+          role: 'user',
+          content: message
+        }
+      ],
+      max_tokens: 500,
+      temperature: 0.7
+    });
+
+    const reply = completion.choices[0].message.content;
+
+    console.log('✅ Generated reply:', reply.substring(0, 50) + '...');
+
+    res.json({ reply });
+
+  } catch (error) {
+    console.error('❌ Chat API error:', error);
+    
+    // Return a friendly error message
+    res.status(500).json({ 
+      error: 'Failed to get response from OpenAI',
+      details: error.message 
     });
   }
 }));

@@ -46,29 +46,60 @@ const CollapsibleChatWidget = () => {
     }
   }, [isOpen]);
 
-  const handleSendMessage = () => {
+  const handleSendMessage = async () => {
     if (inputValue.trim() === '') return;
 
+    const userMessageText = inputValue.trim();
+    
     // Add user message
     const userMessage = {
       id: Date.now(),
-      text: inputValue,
+      text: userMessageText,
       sender: 'user',
       timestamp: new Date()
     };
     setMessages(prev => [...prev, userMessage]);
     setInputValue('');
 
-    // Simulate bot response (replace with actual API call)
-    setTimeout(() => {
+    try {
+      // Call backend API
+      const API_URL = process.env.REACT_APP_API_URL || 'https://lotusrepo-production-0265.up.railway.app';
+      
+      const response = await fetch(`${API_URL}/api/chat`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ message: userMessageText })
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to get response from server');
+      }
+
+      const data = await response.json();
+      
+      // Add bot response
       const botMessage = {
         id: Date.now() + 1,
-        text: "🤖 That's interesting! Let me think about that...",
+        text: data.reply || "I'm sorry, I didn't understand that.",
         sender: 'bot',
         timestamp: new Date()
       };
       setMessages(prev => [...prev, botMessage]);
-    }, 1500);
+
+    } catch (error) {
+      console.error('Chat error:', error);
+      
+      // Add error message
+      const errorMessage = {
+        id: Date.now() + 1,
+        text: "Sorry, I'm having trouble connecting right now. Please try again later.",
+        sender: 'bot',
+        timestamp: new Date()
+      };
+      setMessages(prev => [...prev, errorMessage]);
+    }
   };
 
   const handleKeyPress = (e) => {
