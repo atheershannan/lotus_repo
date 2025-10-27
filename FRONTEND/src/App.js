@@ -8,6 +8,11 @@ import Navbar from './components/layout/Navbar';
 import Sidebar from './components/layout/Sidebar';
 import LoadingSpinner from './components/common/LoadingSpinner';
 import ErrorBoundary from './components/common/ErrorBoundary';
+import ChatAgentButton from './components/chat/ChatAgentButton';
+import ChatWidget from './components/chat/ChatWidget';
+
+// Context
+import { ChatContextProvider } from './context/ChatContext';
 
 // Pages
 import LoginPage from './pages/LoginPage';
@@ -35,26 +40,32 @@ function App() {
   // Authentication is handled at the API Gateway/Backend level via JWT tokens
   return (
     <ErrorBoundary>
-      <Box sx={{ display: 'flex', minHeight: '100vh' }}>
-        <Sidebar />
-        <Box sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
-          <Navbar />
-          <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-            <Routes>
-              <Route path="/" element={<Navigate to="/chat" replace />} />
-              <Route path="/login" element={<LoginPage />} />
-              <Route path="/dashboard" element={<DashboardPage />} />
-              <Route path="/chat" element={<ChatPage />} />
-              <Route path="/content" element={<ContentPage />} />
-              <Route path="/skills" element={<SkillsPage />} />
-              <Route path="/progress" element={<ProgressPage />} />
-              <Route path="/analytics" element={<AnalyticsPage />} />
-              <Route path="/profile" element={<ProfilePage />} />
-              <Route path="*" element={<NotFoundPage />} />
-            </Routes>
+      <ChatContextProvider>
+        <Box sx={{ display: 'flex', minHeight: '100vh' }}>
+          <Sidebar />
+          <Box sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
+            <Navbar />
+            <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+              <Routes>
+                <Route path="/" element={<Navigate to="/chat" replace />} />
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="/dashboard" element={<DashboardPage />} />
+                <Route path="/chat" element={<ChatPage />} />
+                <Route path="/content" element={<ContentPage />} />
+                <Route path="/skills" element={<SkillsPage />} />
+                <Route path="/progress" element={<ProgressPage />} />
+                <Route path="/analytics" element={<AnalyticsPage />} />
+                <Route path="/profile" element={<ProfilePage />} />
+                <Route path="*" element={<NotFoundPage />} />
+              </Routes>
+            </Box>
           </Box>
+          
+          {/* Floating Chat Widget */}
+          <ChatAgentButton />
+          <ChatWidget />
         </Box>
-      </Box>
+      </ChatContextProvider>
     </ErrorBoundary>
   );
 }

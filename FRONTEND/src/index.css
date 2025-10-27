@@ -1804,3 +1804,97 @@
             print-color-adjust: exact;
         }
     }
+
+    /* Floating Chat Widget Styles */
+    .chat-widget-container {
+        z-index: 999;
+    }
+
+    /* Chat Widget Animations */
+    @keyframes slideInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px) scale(0.95);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    }
+
+    @keyframes slideOutDown {
+        from {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+        to {
+            opacity: 0;
+            transform: translateY(20px) scale(0.95);
+        }
+    }
+
+    @keyframes pulse {
+        0%, 100% {
+            opacity: 1;
+            transform: scale(1);
+        }
+        50% {
+            opacity: 0.8;
+            transform: scale(1.05);
+        }
+    }
+
+    /* Notification pulse for unread messages */
+    .chat-button-pulse {
+        animation: pulse 2s ease-in-out infinite;
+    }
+
+    /* Dark mode support for chat widget */
+    .night-mode .chat-widget {
+        background: var(--bg-card);
+        border: 2px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .day-mode .chat-widget {
+        background: var(--bg-card);
+        border: 2px solid rgba(0, 0, 0, 0.1);
+    }
+
+    /* Chat widget responsive adjustments */
+    @media (max-width: 600px) {
+        .chat-widget {
+            max-width: calc(100vw - 48px);
+            left: 24px;
+            right: 24px;
+        }
+    }
+
+    /* Accessibility improvements */
+    .chat-widget:focus-within {
+        outline: 2px solid var(--primary-cyan);
+        outline-offset: 2px;
+    }
+
+    /* Smooth scrolling for chat messages */
+    .chat-messages-container {
+        scroll-behavior: smooth;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    /* Scrollbar styling for chat widget */
+    .chat-messages-container::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    .chat-messages-container::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    .chat-messages-container::-webkit-scrollbar-thumb {
+        background: var(--bg-tertiary);
+        border-radius: 4px;
+    }
+
+    .chat-messages-container::-webkit-scrollbar-thumb:hover {
+        background: var(--text-muted);
+    }
