@@ -1,4 +1,0 @@
-git add .
-git commit -m "Fix Prisma OpenSSL issue - use node:20 instead of alpine"
-git push origin main
-
