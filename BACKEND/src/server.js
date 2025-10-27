@@ -67,6 +67,10 @@ const logger = winston.createLogger({
 
 // Create Express app
 const app = express();
+
+// Trust proxy for Railway (fix rate limiter warning)
+app.set('trust proxy', 1);
+
 const RAW_PORT = process.env.PORT;
 const PORT = RAW_PORT ? Number(RAW_PORT) : 8080;
 console.log('🛠 PORT env =', RAW_PORT, ' -> listening on', PORT);

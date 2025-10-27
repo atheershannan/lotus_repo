@@ -5,6 +5,7 @@ const ragService = require('../services/ragService');
 const { PrismaClient } = require('@prisma/client');
 const Joi = require('joi');
 const OpenAI = require('openai');
+const mockConfig = require('../config/mock');
 
 // Only create Prisma if DATABASE_URL is set
 let prisma = null;
@@ -37,6 +38,14 @@ router.post('/', asyncHandler(async (req, res) => {
       apiKey: process.env.OPENAI_API_KEY,
     });
 
+    if (!process.env.OPENAI_API_KEY) {
+      console.error("❌ Missing OPENAI_API_KEY in chat route – cannot connect to OpenAI.");
+      return res.status(500).json({ 
+        error: 'OpenAI API key not configured',
+        hint: 'Please set OPENAI_API_KEY environment variable in Railway'
+      });
+    }
+
     console.log('💬 Received chat message:', message);
 
     // Call OpenAI API
@@ -66,7 +75,13 @@ router.post('/', asyncHandler(async (req, res) => {
     console.error('❌ Chat API error:', error);
     console.error('❌ Error type:', error.constructor.name);
     console.error('❌ Error message:', error.message);
-    console.error('❌ Error stack:', error.stack);
+    
+    // If OpenAI failed due to quota/billing, use mock responses
+    if (error.code === 'insufficient_quota' || error.status === 429) {
+      console.log('🎭 Falling back to mock response due to OpenAI quota/billing issue');
+      const mockReply = mockConfig.getMockRAGResponse(message);
+      return res.json({ reply: mockReply });
+    }
     
     // Return a friendly error message
     res.status(500).json({ 
