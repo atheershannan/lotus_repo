@@ -25,6 +25,15 @@ if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KE
   console.log('⚠️  Supabase disabled (mock mode)');
 }
 
+// Ensure logs directory exists
+const fs = require('fs');
+const path = require('path');
+
+const logsDir = path.join(__dirname, '..', 'logs');
+if (!fs.existsSync(logsDir)) {
+  fs.mkdirSync(logsDir, { recursive: true });
+}
+
 // Initialize logger
 const logger = winston.createLogger({
   level: process.env.LOG_LEVEL || 'info',
