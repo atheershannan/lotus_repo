@@ -46,6 +46,65 @@ const logger = winston.createLogger({
 const app = express();
 const PORT = process.env.PORT || 3001;
 
+// ---------- CORS (must be BEFORE helmet/routes) ----------
+const allowedOrigins = process.env.ALLOWED_ORIGINS 
+  ? process.env.ALLOWED_ORIGINS.split(',').map(o => o.trim())
+  : [
+      'https://lotus-repo.vercel.app',
+      'https://lotus-repo-git-main-atheershannan.vercel.app',
+      'http://localhost:3000'
+    ];
+
+console.log('🌐 CORS Allowed Origins:', allowedOrigins);
+
+const corsOptions = {
+  origin: function (origin, callback) {
+    // allow no-origin (server-to-server/Postman/mobile) and dev (non-prod)
+    if (!origin || process.env.NODE_ENV !== 'production') {
+      return callback(null, true);
+    }
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+    console.log('⚠️ Blocked CORS request from:', origin);
+    return callback(new Error('Not allowed by CORS'));
+  },
+  credentials: true,
+  methods: ['GET','POST','PUT','DELETE','OPTIONS','PATCH','HEAD'],
+  allowedHeaders: ['Content-Type','Authorization','X-Requested-With','x-api-key','Accept','Origin'],
+  exposedHeaders: ['Content-Length','Content-Type','X-Total-Count'],
+  optionsSuccessStatus: 200,
+  preflightContinue: false,
+  maxAge: 86400,
+};
+
+app.use(cors(corsOptions));
+// Explicitly handle preflight for *all* routes early
+app.options('*', cors(corsOptions));
+
+// Log preflight requests
+app.use((req, res, next) => {
+  if (req.method === 'OPTIONS') {
+    console.log('🔎 Preflight:', { path: req.path, origin: req.headers.origin });
+  }
+  next();
+});
+
+// Backup manual headers to guarantee presence even if a route/middleware forgets to set them
+app.use((req, res, next) => {
+  const origin = req.headers.origin;
+  if (origin && (allowedOrigins.includes(origin) || process.env.NODE_ENV !== 'production')) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+  }
+  res.setHeader('Vary', 'Origin'); // cache correctness
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS, PATCH, HEAD');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, x-api-key, Accept, Origin');
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
+  res.setHeader('Access-Control-Max-Age', '86400');
+  if (req.method === 'OPTIONS') return res.sendStatus(200);
+  next();
+});
+
 // Security middleware
 app.use(helmet({
   contentSecurityPolicy: {
@@ -59,61 +118,6 @@ app.use(helmet({
   crossOriginEmbedderPolicy: false,
   crossOriginResourcePolicy: { policy: "cross-origin" }
 }));
-
-// CORS configuration - Enhanced for production
-const allowedOrigins = process.env.ALLOWED_ORIGINS 
-  ? process.env.ALLOWED_ORIGINS.split(',').map(o => o.trim())
-  : [
-      'https://lotus-repo.vercel.app',
-      'https://lotus-repo-git-main-atheershannan.vercel.app',
-      'http://localhost:3000'
-    ];
-
-console.log('🌐 CORS Allowed Origins:', allowedOrigins);
-
-// CORS middleware with explicit configuration
-const corsOptions = {
-  origin: function (origin, callback) {
-    // Allow requests with no origin (like mobile apps, Postman, or server-to-server)
-    if (!origin) return callback(null, true);
-    
-    if (allowedOrigins.includes(origin) || process.env.NODE_ENV !== 'production') {
-      callback(null, true);
-    } else {
-      console.log('⚠️ Blocked CORS request from:', origin);
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH', 'HEAD'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'x-api-key', 'Accept', 'Origin'],
-  exposedHeaders: ['Content-Length', 'Content-Type', 'X-Total-Count'],
-  optionsSuccessStatus: 200,
-  preflightContinue: false,
-  maxAge: 86400
-};
-
-app.use(cors(corsOptions));
-
-// Explicitly handle OPTIONS requests for all routes (critical for preflight)
-app.options('*', cors(corsOptions));
-
-// Manual CORS headers middleware (backup)
-app.use((req, res, next) => {
-  const origin = req.headers.origin;
-  if (origin && (allowedOrigins.includes(origin) || process.env.NODE_ENV !== 'production')) {
-    res.setHeader('Access-Control-Allow-Origin', origin);
-  }
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS, PATCH, HEAD');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, x-api-key, Accept, Origin');
-  res.setHeader('Access-Control-Allow-Credentials', 'true');
-  res.setHeader('Access-Control-Max-Age', '86400');
-  
-  if (req.method === 'OPTIONS') {
-    return res.sendStatus(200);
-  }
-  next();
-});
 
 // Compression middleware
 app.use(compression());
@@ -153,6 +157,18 @@ app.get('/health', (req, res) => {
     timestamp: new Date().toISOString(),
     uptime: process.uptime(),
     environment: process.env.NODE_ENV || 'development'
+  });
+});
+
+// CORS debug endpoint to validate headers easily
+app.get('/api/cors-debug', (req, res) => {
+  res.json({
+    ok: true,
+    method: req.method,
+    receivedOrigin: req.headers.origin || null,
+    allowedOrigins,
+    env: process.env.NODE_ENV || 'development',
+    note: 'Check response headers for Access-Control-Allow-Origin'
   });
 });
 
