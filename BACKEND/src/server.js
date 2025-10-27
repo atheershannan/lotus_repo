@@ -59,7 +59,9 @@ const logger = winston.createLogger({
 
 // Create Express app
 const app = express();
-const PORT = process.env.PORT ? Number(process.env.PORT) : 8080;
+const RAW_PORT = process.env.PORT;
+const PORT = RAW_PORT ? Number(RAW_PORT) : 8080;
+console.log('🛠 PORT env =', RAW_PORT, ' -> listening on', PORT);
 
 // ---------- CORS (must be BEFORE helmet/routes) ----------
 const allowedOrigins = process.env.ALLOWED_ORIGINS 
@@ -243,8 +245,8 @@ process.on('unhandledRejection', (err) => {
   logger.error('Unhandled Rejection:', err);
 });
 
-// Start server
-app.listen(PORT, () => {
+// Start server - bind to 0.0.0.0 to accept external connections
+app.listen(PORT, '0.0.0.0', () => {
   logger.info(`🚀 Corporate Learning Assistant Backend running on port ${PORT}`);
   logger.info(`📊 Environment: ${process.env.NODE_ENV || 'development'}`);
   logger.info(`🔗 Frontend URL: ${process.env.FRONTEND_URL || 'http://localhost:3000'}`);
