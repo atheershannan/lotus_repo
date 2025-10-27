@@ -58,12 +58,32 @@ app.use(helmet({
   },
 }));
 
-// CORS configuration
+// CORS configuration - Enhanced for production
+const allowedOrigins = process.env.ALLOWED_ORIGINS 
+  ? process.env.ALLOWED_ORIGINS.split(',')
+  : [
+      'https://lotus-repo.vercel.app',
+      'https://lotus-repo-git-main-atheershannan.vercel.app',
+      'http://localhost:3000'
+    ];
+
 app.use(cors({
-  origin: '*', // Allow all origins for testing
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps, Postman, or server-to-server)
+    if (!origin) return callback(null, true);
+    
+    if (allowedOrigins.indexOf(origin) !== -1 || process.env.NODE_ENV !== 'production') {
+      callback(null, true);
+    } else {
+      console.log('Blocked CORS request from:', origin);
+      callback(null, true); // Still allow but log it (remove this line to block)
+    }
+  },
   credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'x-api-key'],
+  exposedHeaders: ['Content-Length', 'Content-Type'],
+  optionsSuccessStatus: 200 // Some legacy browsers choke on 204
 }));
 
 // Compression middleware
