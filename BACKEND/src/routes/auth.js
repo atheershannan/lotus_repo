@@ -21,12 +21,43 @@ if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KE
 router.post('/login', asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
-  // Check if Supabase is configured
+  // Mock authentication for testing
   if (!supabase) {
-    return res.status(503).json({
-      success: false,
-      error: 'Authentication service not configured'
-    });
+    console.log('🔓 Mock Mode: Simulating login');
+    
+    // Accept demo credentials
+    if (email === 'demo@company.com' && password === 'demo123') {
+      const mockUser = {
+        id: 'demo-user-123',
+        email: 'demo@company.com',
+        name: 'Demo User',
+        department: 'Engineering',
+        role: 'trainer',
+        learningProfile: 'advanced',
+        preferences: {},
+        isActive: true
+      };
+
+      const mockSession = {
+        accessToken: 'mock-access-token-' + Date.now(),
+        refreshToken: 'mock-refresh-token-' + Date.now(),
+        expiresAt: Math.floor(Date.now() / 1000) + 3600 // 1 hour
+      };
+
+      return res.json({
+        success: true,
+        data: {
+          user: mockUser,
+          session: mockSession
+        }
+      });
+    } else {
+      return res.status(401).json({
+        success: false,
+        error: 'Invalid credentials',
+        hint: 'Use demo@company.com / demo123'
+      });
+    }
   }
 
   try {

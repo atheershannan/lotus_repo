@@ -1,0 +1,20 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "CHATBOT.html",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/CHATBOT.html",
+      "dest": "/CHATBOT.html"
+    },
+    {
+      "src": "/",
+      "dest": "/CHATBOT.html"
+    }
+  ]
+}
+
