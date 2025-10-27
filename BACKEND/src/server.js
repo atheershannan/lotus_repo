@@ -11,6 +11,14 @@ const dotenv = require('dotenv');
 // Load environment variables
 dotenv.config();
 
+// Environment diagnostics
+console.log("🔍 Checking OPENAI_API_KEY env...");
+if (process.env.OPENAI_API_KEY) {
+  console.log("✅ OPENAI_API_KEY found, length:", process.env.OPENAI_API_KEY.length);
+} else {
+  console.error("❌ OPENAI_API_KEY not found! Please define it in Railway → Variables.");
+}
+
 // Initialize Prisma client (only if DATABASE_URL is set)
 let prisma = null;
 if (process.env.DATABASE_URL) {
@@ -186,6 +194,16 @@ app.get('/api/cors-debug', (req, res) => {
     allowedOrigins,
     env: process.env.NODE_ENV || 'development',
     note: 'Check response headers for Access-Control-Allow-Origin'
+  });
+});
+
+// Environment debug endpoint
+app.get('/api/debug-env', (req, res) => {
+  res.json({
+    openaiKeyDetected: !!process.env.OPENAI_API_KEY,
+    openaiKeyLength: process.env.OPENAI_API_KEY ? process.env.OPENAI_API_KEY.length : 0,
+    nodeEnv: process.env.NODE_ENV || 'development',
+    allowedOrigins: process.env.ALLOWED_ORIGINS || '(none)'
   });
 });
 
