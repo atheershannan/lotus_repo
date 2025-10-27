@@ -63,10 +63,17 @@ const CollapsibleChatWidget = () => {
 
     try {
       // Call backend API
-      const API_URL = process.env.REACT_APP_API_URL || 'https://lotusrepo-production-0265.up.railway.app';
+      // REACT_APP_API_URL should point to base URL without /api suffix
+      const API_URL = process.env.REACT_APP_API_URL || 'https://lotusrepo-production.up.railway.app';
       
       // Ensure URL doesn't have trailing slash and path doesn't have leading slash
-      const baseUrl = API_URL.endsWith('/') ? API_URL.slice(0, -1) : API_URL;
+      let baseUrl = API_URL.endsWith('/') ? API_URL.slice(0, -1) : API_URL;
+      
+      // Remove /api suffix if present to avoid double /api/api
+      if (baseUrl.endsWith('/api')) {
+        baseUrl = baseUrl.slice(0, -4);
+      }
+      
       const endpoint = '/api/chat';
       
       const response = await fetch(`${baseUrl}${endpoint}`, {

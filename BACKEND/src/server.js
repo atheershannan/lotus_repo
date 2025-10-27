@@ -60,12 +60,14 @@ app.use(helmet({
 
 // CORS configuration - Enhanced for production
 const allowedOrigins = process.env.ALLOWED_ORIGINS 
-  ? process.env.ALLOWED_ORIGINS.split(',')
+  ? process.env.ALLOWED_ORIGINS.split(',').map(o => o.trim())
   : [
       'https://lotus-repo.vercel.app',
       'https://lotus-repo-git-main-atheershannan.vercel.app',
       'http://localhost:3000'
     ];
+
+console.log('🌐 CORS Allowed Origins:', allowedOrigins);
 
 app.use(cors({
   origin: function (origin, callback) {
@@ -75,16 +77,21 @@ app.use(cors({
     if (allowedOrigins.indexOf(origin) !== -1 || process.env.NODE_ENV !== 'production') {
       callback(null, true);
     } else {
-      console.log('Blocked CORS request from:', origin);
+      console.log('⚠️ Blocked CORS request from:', origin);
       callback(null, true); // Still allow but log it (remove this line to block)
     }
   },
   credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'x-api-key'],
-  exposedHeaders: ['Content-Length', 'Content-Type'],
-  optionsSuccessStatus: 200 // Some legacy browsers choke on 204
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH', 'HEAD'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'x-api-key', 'X-Custom-Header'],
+  exposedHeaders: ['Content-Length', 'Content-Type', 'X-Total-Count'],
+  optionsSuccessStatus: 200, // Some legacy browsers choke on 204
+  preflightContinue: false,
+  maxAge: 86400 // Cache preflight for 24 hours
 }));
+
+// Explicitly handle OPTIONS requests for all routes
+app.options('*', cors());
 
 // Compression middleware
 app.use(compression());
