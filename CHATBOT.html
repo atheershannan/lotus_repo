@@ -265,7 +265,25 @@
         const statusMessage = document.getElementById('statusMessage');
         
         let sessionId = 'chat-' + Date.now();
-        const API_URL = window.API_URL || 'http://localhost:3001/api';
+        
+        // Auto-detect API URL based on environment
+        let API_URL = 'http://localhost:3001/api';
+        
+        if (window.location.hostname.includes('vercel.app')) {
+            // Production on Vercel - use Railway backend
+            API_URL = 'https://lotusrepo-production.up.railway.app/api';
+        } else if (window.location.hostname.includes('railway')) {
+            // If running on Railway
+            API_URL = window.location.origin + '/api';
+        } else if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+            // Local development
+            API_URL = 'http://localhost:3001/api';
+        }
+        
+        // Allow manual override
+        if (window.API_URL) {
+            API_URL = window.API_URL;
+        }
 
         // Show status message
         function showStatus(message, type = '') {
