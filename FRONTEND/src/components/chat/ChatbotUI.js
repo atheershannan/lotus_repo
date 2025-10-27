@@ -37,7 +37,7 @@ const ChatbotUI = ({
 }) => {
   const dispatch = useDispatch();
   const { messages, isLoading, error } = useSelector(state => state.chat);
-  const user = useSelector(state => state.auth.user);
+  const user = useSelector(state => state.auth.user); // Optional - for display purposes only
   
   const [inputMessage, setInputMessage] = useState('');
   const [isTyping, setIsTyping] = useState(false);

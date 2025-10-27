@@ -24,24 +24,15 @@ import NotFoundPage from './pages/NotFoundPage';
 import useAuth from './hooks/useAuth';
 
 function App() {
-  const { isLoading, isAuthenticated } = useAuth();
+  const { isLoading } = useAuth();
   const user = useSelector(state => state.auth.user);
 
   if (isLoading) {
     return <LoadingSpinner />;
   }
 
-  if (!isAuthenticated) {
-    return (
-      <ErrorBoundary>
-        <Routes>
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="*" element={<Navigate to="/login" replace />} />
-        </Routes>
-      </ErrorBoundary>
-    );
-  }
-
+  // Display chatbot directly without authentication requirement
+  // Authentication is handled at the API Gateway/Backend level via JWT tokens
   return (
     <ErrorBoundary>
       <Box sx={{ display: 'flex', minHeight: '100vh' }}>
@@ -50,7 +41,8 @@ function App() {
           <Navbar />
           <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
             <Routes>
-              <Route path="/" element={<Navigate to="/dashboard" replace />} />
+              <Route path="/" element={<Navigate to="/chat" replace />} />
+              <Route path="/login" element={<LoginPage />} />
               <Route path="/dashboard" element={<DashboardPage />} />
               <Route path="/chat" element={<ChatPage />} />
               <Route path="/content" element={<ContentPage />} />

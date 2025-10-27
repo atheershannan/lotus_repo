@@ -1,0 +1,20 @@
+הקובץ FRONTEND.zip עדיין ב-git history.
+
+פתרון פשוט:
+
+1. מצא ומחק את FRONTEND.zip מהקומפילומים ב-local
+2. Push בלי הקובץ הזה
+
+או:
+
+צור Branch חדש:
+git checkout --orphan clean-main
+git add .
+git rm --cached FRONTEND.zip (אם קיים)
+git commit -m "Clean start"
+git branch -D main
+git branch -m main
+git push origin main --force
+
+היזהר! זה ימחק את כל ההיסטוריה!
+

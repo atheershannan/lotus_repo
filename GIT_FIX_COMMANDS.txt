@@ -1,0 +1,29 @@
+═══════════════════════════════════════════════════
+  גרך ל-Clean Git History
+═══════════════════════════════════════════════════
+
+הקובץ FRONTEND.zip עדיין ב-history.
+
+פתרון מהיר - Branch חדש:
+
+git checkout --orphan new-main
+git add .
+git commit -m "Initial commit - without large files"
+git branch -D main
+git branch -m main
+git push origin main --force
+
+═══════════════════════════════════════════════════
+
+עדיף - Push רק את הקבצים החדשים:
+
+git reset --soft HEAD~2
+git add CHATBOT.html vercel.json BACKEND/ .gitignore
+git reset HEAD FRONTEND.zip
+git commit -m "Production ready deployment files only"
+git push origin main --force
+
+═══════════════════════════════════════════════════
+
+או השתמש ב-CLEAN_GIT.bat
+

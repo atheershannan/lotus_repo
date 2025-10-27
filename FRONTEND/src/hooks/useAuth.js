@@ -9,17 +9,18 @@ const useAuth = () => {
   const [isCheckingAuth, setIsCheckingAuth] = useState(true);
 
   useEffect(() => {
-    // Check if user is logged in on app start
+    // Check if user is logged in on app start (optional - for display purposes only)
+    // Authentication is handled at the API Gateway/Backend level
     const checkAuth = async () => {
       const token = localStorage.getItem('accessToken');
       
       if (token) {
-        // If we have a token but no user, fetch user data
+        // If we have a token but no user, fetch user data (optional)
         if (!user) {
           try {
             await dispatch(getCurrentUser()).unwrap();
           } catch (error) {
-            // Token is invalid, clear it
+            // Token is invalid, clear it (but don't block the app)
             localStorage.removeItem('accessToken');
             localStorage.removeItem('refreshToken');
           }
@@ -37,7 +38,7 @@ const useAuth = () => {
 
   return {
     user,
-    isAuthenticated: authIsAuthenticated || !!localStorage.getItem('accessToken'),
+    isAuthenticated: authIsAuthenticated || !!localStorage.getItem('accessToken'), // Optional - for display only
     isLoading: isLoading || isCheckingAuth,
     error
   };

@@ -24,6 +24,8 @@ api.interceptors.request.use(
 );
 
 // Response interceptor to handle auth errors
+// Note: Authentication is handled at the API Gateway/Backend level
+// This interceptor handles token refresh if needed, but doesn't block the app
 api.interceptors.response.use(
   (response) => response,
   async (error) => {
@@ -47,10 +49,11 @@ api.interceptors.response.use(
           return api(originalRequest);
         }
       } catch (refreshError) {
-        // Refresh failed, redirect to login
+        // Refresh failed - clear tokens but don't redirect to login
+        // Authentication is managed by the API Gateway
         localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');
-        window.location.href = '/login';
+        console.warn('Token refresh failed. Authentication should be handled by the API Gateway.');
       }
     }
 
