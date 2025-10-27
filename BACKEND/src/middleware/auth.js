@@ -18,17 +18,26 @@ if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KE
 // Middleware to verify Supabase JWT token
 const authenticateToken = async (req, res, next) => {
   try {
+    // If Supabase is not configured, allow requests in test/mock mode
+    if (!supabase) {
+      console.log('⚠️  Authentication skipped (Supabase not configured - mock mode)');
+      // Set mock user for development
+      req.user = {
+        id: 'demo-user-123',
+        email: 'demo@example.com',
+        name: 'Demo User',
+        role: 'trainer',
+        department: 'IT',
+        isActive: true
+      };
+      return next();
+    }
+
     const authHeader = req.headers['authorization'];
     const token = authHeader && authHeader.split(' ')[1]; // Bearer TOKEN
 
     if (!token) {
       return res.status(401).json({ error: 'Access token required' });
-    }
-
-    // If Supabase is not configured, skip authentication in test/mock mode
-    if (!supabase) {
-      console.log('⚠️  Authentication skipped (Supabase not configured)');
-      return res.status(401).json({ error: 'Authentication not configured' });
     }
 
     // Verify token with Supabase

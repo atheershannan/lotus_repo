@@ -1,0 +1,4 @@
+git add .
+git commit -m "Fix auth middleware to allow requests without Supabase configuration"
+git push origin main
+
