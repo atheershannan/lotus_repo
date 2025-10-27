@@ -1,6 +1,5 @@
 {
-  "version": 2,
-  "buildCommand": "",
-  "outputDirectory": "public",
-  "cleanUrls": true
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/CHATBOT.html" }
+  ]
 }
