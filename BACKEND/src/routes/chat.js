@@ -6,7 +6,13 @@ const { PrismaClient } = require('@prisma/client');
 const Joi = require('joi');
 const OpenAI = require('openai');
 
-const prisma = new PrismaClient();
+// Only create Prisma if DATABASE_URL is set
+let prisma = null;
+if (process.env.DATABASE_URL) {
+  prisma = new PrismaClient();
+} else {
+  console.log('⚠️  Prisma disabled in chat routes (mock mode)');
+}
 
 // Simple chat endpoint with OpenAI integration for the chat widget
 router.post('/', asyncHandler(async (req, res) => {
@@ -15,6 +21,15 @@ router.post('/', asyncHandler(async (req, res) => {
     
     if (!message) {
       return res.status(400).json({ error: 'Message is required' });
+    }
+
+    // Check if OpenAI API key is configured
+    if (!process.env.OPENAI_API_KEY) {
+      console.error('❌ OPENAI_API_KEY not configured');
+      return res.status(500).json({ 
+        error: 'OpenAI API key not configured',
+        hint: 'Please set OPENAI_API_KEY environment variable in Railway'
+      });
     }
 
     // Initialize OpenAI client
@@ -75,16 +90,30 @@ router.post('/message', authenticateToken, validateRequest(chatMessageSchema), a
   const userId = req.user?.id || 'demo-user-123';
 
   try {
-    // Store user message
-    const userMessage = await prisma.chatMessage.create({
-      data: {
+    // Store user message (if prisma is available)
+    let userMessage = null;
+    if (prisma) {
+      userMessage = await prisma.chatMessage.create({
+        data: {
+          userId,
+          sessionId,
+          messageType: 'user',
+          content: message,
+          metadata: { timestamp: new Date().toISOString() }
+        }
+      });
+    } else {
+      // Mock message for demo mode
+      userMessage = {
+        id: 'mock-' + Date.now(),
         userId,
         sessionId,
         messageType: 'user',
         content: message,
-        metadata: { timestamp: new Date().toISOString() }
-      }
-    });
+        metadata: { timestamp: new Date().toISOString() },
+        createdAt: new Date()
+      };
+    }
 
     // Get RAG response
     const ragResponse = await ragService.generateRAGResponse(
