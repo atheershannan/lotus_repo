@@ -1,24 +1,11 @@
 {
   "version": 2,
-  "public": false,
-  "buildCommand": "echo 'Skipping build - serving static CHATBOT.html'",
+  "buildCommand": "",
   "outputDirectory": ".",
-  "rewrites": [
+  "routes": [
     {
-      "source": "/(.*)",
-      "destination": "/CHATBOT.html"
-    }
-  ],
-  "headers": [
-    {
-      "source": "/CHATBOT.html",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=3600"
-        }
-      ]
+      "src": "/",
+      "dest": "/index.html"
     }
   ]
 }
-
