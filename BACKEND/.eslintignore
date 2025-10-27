@@ -1,0 +1,11 @@
+node_modules/
+dist/
+build/
+coverage/
+logs/
+*.log
+.env
+.env.local
+prisma/
+*.test.js
+!src/**/*.test.js
