@@ -65,3 +65,6 @@ __pycache__/
 # Misc
 .cursor/
 *.local
+
+# Large files
+*.zip

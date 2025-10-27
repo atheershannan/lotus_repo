@@ -1,0 +1,11 @@
+FRONTEND/
+BACKEND/
+node_modules/
+.github/
+DEPLOYMENT/
+*.bat
+*.sh
+*.md
+!CHATBOT.html
+!vercel.json
+

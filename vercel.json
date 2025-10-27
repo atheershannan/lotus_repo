@@ -1,19 +1,23 @@
 {
   "version": 2,
-  "builds": [
+  "public": false,
+  "buildCommand": "echo 'Skipping build - serving static CHATBOT.html'",
+  "outputDirectory": ".",
+  "rewrites": [
     {
-      "src": "CHATBOT.html",
-      "use": "@vercel/static"
+      "source": "/(.*)",
+      "destination": "/CHATBOT.html"
     }
   ],
-  "routes": [
+  "headers": [
     {
-      "src": "/CHATBOT.html",
-      "dest": "/CHATBOT.html"
-    },
-    {
-      "src": "/",
-      "dest": "/CHATBOT.html"
+      "source": "/CHATBOT.html",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=3600"
+        }
+      ]
     }
   ]
 }
