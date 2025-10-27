@@ -15,7 +15,7 @@
 
    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
    NAME: REACT_APP_API_URL
-   VALUE: https://lotusrepo-production.up.railway.app/api
+   VALUE: https://lotusrepo-production-0265.up.railway.app/api
    ENVIRONMENTS: Production, Preview, Development
    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 

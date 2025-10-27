@@ -18,7 +18,7 @@ The frontend has been configured to work without login authentication. Authentic
 In Vercel Dashboard → Your Project → Settings → Environment Variables:
 
 ```bash
-REACT_APP_API_URL=https://lotusrepo-production.up.railway.app/api
+REACT_APP_API_URL=https://lotusrepo-production-0265.up.railway.app/api
 ```
 
 ### Step 2: Configure Vercel Project
@@ -78,7 +78,7 @@ After deployment:
 
 ## 🔗 API Endpoints
 
-All API calls go to: `https://lotusrepo-production.up.railway.app/api`
+All API calls go to: `https://lotusrepo-production-0265.up.railway.app/api`
 
 **Main Endpoints:**
 - Chat: `/api/chat/message`

@@ -32,7 +32,7 @@
 ב-Vercel Dashboard → Settings → Environment Variables, הוסף:
 
 ```
-REACT_APP_API_URL=https://lotusrepo-production.up.railway.app/api
+REACT_APP_API_URL=https://lotusrepo-production-0265.up.railway.app/api
 ```
 
 **יציבות**: Production, Preview, Development

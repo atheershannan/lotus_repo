@@ -1,66 +1,57 @@
-# 🔧 תיקון Vercel - להציג CHATBOT במקום Login
+# 🔧 Fix Vercel Deployment Error
 
-## 🎯 הבעיה:
-Vercel מנסה לבנות את ה-React app מ-FRONTEND folder במקום להציג את ה-CHATBOT.html
-
-## ✅ הפיתרון:
-
-### שלב 1: ב-Vercel Dashboard
-
-1. היכנס ל: https://vercel.com/dashboard
-2. בחר את הפרויקט
-3. לך ל-**Settings** → **General**
-4. במדור **Root Directory**, לחץ **Override**
-5. השאר ריק או תן: `.` (לשמור את root)
-6. שמור
-
-### שלב 2: תגדיר Build Command
-
-באותו מסך Settings → Build & Development Settings:
-- **Build Command:** השאר ריק או: `echo "Serving static CHATBOT.html"`
-- **Output Directory:** השאר ריק או: `.`
-
-### שלב 3: Redeploy
-
-1. לך ל-**Deployments** tab
-2. לחץ על ה-3 dots (...) של ה-deployment האחרון
-3. בחר **Redeploy**
-
----
-
-## 🚀 אופציה חלופית - פרויקט חדש:
-
-### צור פרויקט חדש ב-Vercel:
-
-1. תתחבר ל-Vercel
-2. הוסף פרויקט חדש
-3. כאשר עושה Import:
-   - בחר את ה-Repository
-   - ב-**Framework Preset:** בחר **Other**
-   - שים את ה-**Root Directory** ריק
-   - שים את **Output Directory** ריק
-   - לחץ **Deploy**
-
----
-
-## 📝 בדיקה מהירה:
-
-אחרי ה-redeploy, הפוך לך לכתובת:
+## Problem
 ```
-https://your-project.vercel.app
+sh: line 1: cd: FRONTEND: No such file or directory
 ```
 
-צריך לראות את ה-CHATBOT ו**לא** את ה-Login!
+Vercel is trying to run commands from the wrong directory.
+
+## ✅ Solution: Configure in Vercel Dashboard
+
+**This MUST be done in the Vercel Dashboard**, not in the code.
+
+### Steps:
+
+1. **Go to Vercel**: https://vercel.com/dashboard
+
+2. **Select your project**
+
+3. **Settings → General**
+
+4. **Root Directory** section:
+   - Click "Edit"
+   - Change from `.` to `FRONTEND`
+   - Click "Continue"
+
+5. **Save**
+
+6. **Redeploy**:
+   - Go to Deployments tab
+   - Find the failed deployment
+   - Click "..." menu → "Redeploy"
+
+## Why This Happens
+
+When you set Root Directory:
+- Vercel runs all commands from that directory
+- `package.json` is found at `FRONTEND/package.json`
+- Build output goes to `FRONTEND/build/`
+- No need for `cd FRONTEND` in commands
+
+## Alternative: Create New Project
+
+If updating Root Directory doesn't work:
+
+1. **Go to**: https://vercel.com/new
+2. **Import repository**
+3. **Configure**:
+   - **Root Directory**: `FRONTEND`
+   - **Framework Preset**: Create React App
+4. **Environment Variables**:
+   - Add `REACT_APP_API_URL` = `https://lotusrepo-production-0265.up.railway.app/api`
+5. **Deploy**
 
 ---
 
-## 🔍 אם עדיין לא עובד:
-
-### אופציה 3: סתם לחכות
-
-פעמים רבות Vercel צריך כמה דקות לה-update. פשוט תחזור אחרי 5 דקות.
-
-### אופציה 4: לשנות את Structure
-
-אם כלום לא עובד, אני יכול ליצור folder נפרד `DEPLOY` שכולל רק את ה-CHATBOT.html
-
+**Important**: You MUST set Root Directory in Vercel Dashboard for this to work!
