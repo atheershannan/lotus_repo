@@ -11,8 +11,14 @@ const dotenv = require('dotenv');
 // Load environment variables
 dotenv.config();
 
-// Initialize Prisma client
-const prisma = new PrismaClient();
+// Initialize Prisma client (only if DATABASE_URL is set)
+let prisma = null;
+if (process.env.DATABASE_URL) {
+  prisma = new PrismaClient();
+  console.log('✅ Database connected');
+} else {
+  console.log('⚠️  DATABASE_URL not set - running in mock mode (no database operations)');
+}
 
 // Initialize Supabase client (only if URLs are provided)
 let supabase = null;
@@ -53,7 +59,7 @@ const logger = winston.createLogger({
 
 // Create Express app
 const app = express();
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT ? Number(process.env.PORT) : 8080;
 
 // ---------- CORS (must be BEFORE helmet/routes) ----------
 const allowedOrigins = process.env.ALLOWED_ORIGINS 
@@ -216,14 +222,25 @@ app.use('*', (req, res) => {
 // Graceful shutdown
 process.on('SIGINT', async () => {
   logger.info('SIGINT received, shutting down gracefully');
-  await prisma.$disconnect();
+  if (prisma) await prisma.$disconnect();
   process.exit(0);
 });
 
 process.on('SIGTERM', async () => {
   logger.info('SIGTERM received, shutting down gracefully');
-  await prisma.$disconnect();
+  if (prisma) await prisma.$disconnect();
   process.exit(0);
+});
+
+// Startup diagnostics to surface crashes in logs
+process.on('uncaughtException', (err) => {
+  console.error('💥 Uncaught Exception:', err);
+  logger.error('Uncaught Exception:', err);
+});
+
+process.on('unhandledRejection', (err) => {
+  console.error('💥 Unhandled Rejection:', err);
+  logger.error('Unhandled Rejection:', err);
 });
 
 // Start server
