@@ -56,6 +56,8 @@ app.use(helmet({
       imgSrc: ["'self'", "data:", "https:"],
     },
   },
+  crossOriginEmbedderPolicy: false,
+  crossOriginResourcePolicy: { policy: "cross-origin" }
 }));
 
 // CORS configuration - Enhanced for production
@@ -69,29 +71,49 @@ const allowedOrigins = process.env.ALLOWED_ORIGINS
 
 console.log('🌐 CORS Allowed Origins:', allowedOrigins);
 
-app.use(cors({
+// CORS middleware with explicit configuration
+const corsOptions = {
   origin: function (origin, callback) {
     // Allow requests with no origin (like mobile apps, Postman, or server-to-server)
     if (!origin) return callback(null, true);
     
-    if (allowedOrigins.indexOf(origin) !== -1 || process.env.NODE_ENV !== 'production') {
+    if (allowedOrigins.includes(origin) || process.env.NODE_ENV !== 'production') {
       callback(null, true);
     } else {
       console.log('⚠️ Blocked CORS request from:', origin);
-      callback(null, true); // Still allow but log it (remove this line to block)
+      callback(new Error('Not allowed by CORS'));
     }
   },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH', 'HEAD'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'x-api-key', 'X-Custom-Header'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'x-api-key', 'Accept', 'Origin'],
   exposedHeaders: ['Content-Length', 'Content-Type', 'X-Total-Count'],
-  optionsSuccessStatus: 200, // Some legacy browsers choke on 204
+  optionsSuccessStatus: 200,
   preflightContinue: false,
-  maxAge: 86400 // Cache preflight for 24 hours
-}));
+  maxAge: 86400
+};
 
-// Explicitly handle OPTIONS requests for all routes
-app.options('*', cors());
+app.use(cors(corsOptions));
+
+// Explicitly handle OPTIONS requests for all routes (critical for preflight)
+app.options('*', cors(corsOptions));
+
+// Manual CORS headers middleware (backup)
+app.use((req, res, next) => {
+  const origin = req.headers.origin;
+  if (origin && (allowedOrigins.includes(origin) || process.env.NODE_ENV !== 'production')) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+  }
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS, PATCH, HEAD');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, x-api-key, Accept, Origin');
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
+  res.setHeader('Access-Control-Max-Age', '86400');
+  
+  if (req.method === 'OPTIONS') {
+    return res.sendStatus(200);
+  }
+  next();
+});
 
 // Compression middleware
 app.use(compression());
