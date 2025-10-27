@@ -1,10 +1,12 @@
 import React from 'react';
 import { Box } from '@mui/material';
-import MinimalChatWidget from '../components/chat/MinimalChatWidget';
+import ChatButton from '../components/chat/ChatButton';
+import CollapsibleChatWidget from '../components/chat/CollapsibleChatWidget';
 
 /**
  * Minimal Chat Page
- * Displays a clean white page with only the chatbot widget in the bottom-right corner
+ * Displays a clean white page with only a floating chat button
+ * When clicked, opens a collapsible chat widget
  */
 const MinimalChatPage = () => {
   return (
@@ -17,8 +19,11 @@ const MinimalChatPage = () => {
         overflow: 'hidden'
       }}
     >
-      {/* Chat Widget - Bottom Right Corner */}
-      <MinimalChatWidget />
+      {/* Floating Chat Button */}
+      <ChatButton />
+      
+      {/* Collapsible Chat Widget */}
+      <CollapsibleChatWidget />
     </Box>
   );
 };
