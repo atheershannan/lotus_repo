@@ -65,7 +65,11 @@ const CollapsibleChatWidget = () => {
       // Call backend API
       const API_URL = process.env.REACT_APP_API_URL || 'https://lotusrepo-production-0265.up.railway.app';
       
-      const response = await fetch(`${API_URL}/api/chat`, {
+      // Ensure URL doesn't have trailing slash and path doesn't have leading slash
+      const baseUrl = API_URL.endsWith('/') ? API_URL.slice(0, -1) : API_URL;
+      const endpoint = '/api/chat';
+      
+      const response = await fetch(`${baseUrl}${endpoint}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
