@@ -1,11 +1,16 @@
+# Ignore everything except CHATBOT files
 FRONTEND/
 BACKEND/
 node_modules/
 .github/
 DEPLOYMENT/
+tests/
 *.bat
 *.sh
 *.md
-!CHATBOT.html
-!vercel.json
+*.txt
 
+# Only include these:
+!CHATBOT.html
+!index.html
+!vercel.json

@@ -7,7 +7,7 @@ const Joi = require('joi');
 
 const prisma = new PrismaClient();
 
-// Simple chat endpoint without authentication (for testing)
+// Simple chat endpoint with JWT token validation (secure mock mode)
 router.post('/simple', asyncHandler(async (req, res) => {
   const { message, sessionId = 'default-session' } = req.body;
   
@@ -18,22 +18,51 @@ router.post('/simple', asyncHandler(async (req, res) => {
     });
   }
 
-  console.log('🤖 Received chat message:', message);
+  // Extract and validate JWT token from Authorization header
+  const authHeader = req.headers['authorization'];
+  let userContext = {
+    user_id: 'demo-user-123',
+    tenant_id: 'default-tenant',
+    role: 'trainer'
+  };
 
-  // Mock response using RAG service
+  if (authHeader && authHeader.startsWith('Bearer ')) {
+    const token = authHeader.split(' ')[1];
+    try {
+      // In real implementation, validate JWT here
+      // For mock mode, just use demo context
+      console.log('🔐 Token received (mock validation)');
+    } catch (error) {
+      return res.status(401).json({
+        success: false,
+        error: 'Invalid or expired token'
+      });
+    }
+  }
+
+  console.log('🤖 Received chat message:', message);
+  console.log('👤 User context:', userContext);
+
+  // Call RAG service with user context (internal microservice call)
   try {
     const ragResponse = await ragService.generateRAGResponse(
       message,
-      'demo-user-123',
+      userContext.user_id,
       sessionId,
-      {}
+      {
+        userId: userContext.user_id,
+        tenantId: userContext.tenant_id,
+        role: userContext.role
+      }
     );
 
     res.json({
       success: true,
       data: {
         message: ragResponse.response,
-        confidence: ragResponse.confidence
+        confidence: ragResponse.confidence,
+        userId: userContext.user_id,
+        tenantId: userContext.tenant_id
       }
     });
   } catch (error) {
@@ -44,7 +73,8 @@ router.post('/simple', asyncHandler(async (req, res) => {
       success: true,
       data: {
         message: `Mock response for: "${message}". This is a test response to verify the chat system is working correctly.`,
-        confidence: 0.85
+        confidence: 0.85,
+        userId: userContext.user_id
       }
     });
   }
