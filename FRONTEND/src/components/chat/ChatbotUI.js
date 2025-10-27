@@ -25,7 +25,7 @@ import {
 } from '@mui/icons-material';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useDispatch, useSelector } from 'react-redux';
-import { sendMessage, clearSession, provideFeedback } from '../store/slices/chatSlice';
+import { sendMessage, clearSession, provideFeedback } from '../../store/slices/chatSlice';
 import { formatDistanceToNow } from 'date-fns';
 
 const ChatbotUI = ({ 
