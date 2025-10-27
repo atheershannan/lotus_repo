@@ -64,11 +64,15 @@ router.post('/', asyncHandler(async (req, res) => {
 
   } catch (error) {
     console.error('❌ Chat API error:', error);
+    console.error('❌ Error type:', error.constructor.name);
+    console.error('❌ Error message:', error.message);
+    console.error('❌ Error stack:', error.stack);
     
     // Return a friendly error message
     res.status(500).json({ 
       error: 'Failed to get response from OpenAI',
-      details: error.message 
+      details: error.message,
+      type: error.constructor.name
     });
   }
 }));
