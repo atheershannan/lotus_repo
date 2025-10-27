@@ -68,3 +68,7 @@ __pycache__/
 
 # Large files
 *.zip
+ 
+# Prevent temporary files from being tracked 
+*.bat 
+*.txt 
