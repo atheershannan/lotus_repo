@@ -63,11 +63,12 @@ Preferences: ${JSON.stringify(user.preferences)}
       // Store in document_embeddings table
       await prisma.documentEmbedding.create({
         data: {
-          contentId: user.id,
+          // Don't set contentId for user embeddings - it's only for learning content relation
           contentType: 'user',
           contentText: userText,
           embedding: `[${embedding.join(',')}]`,
           metadata: {
+            userId: user.id,
             userName: user.name,
             department: user.department,
             role: user.role,
@@ -255,11 +256,12 @@ Last Accessed: ${progress.lastAccessedAt}
       // Store in document_embeddings table
       await prisma.documentEmbedding.create({
         data: {
-          contentId: progress.id,
+          // Don't set contentId for progress embeddings - it's only for learning content relation
           contentType: 'user_progress',
           contentText: progressText,
           embedding: `[${embedding.join(',')}]`,
           metadata: {
+            progressId: progress.id,
             userName: progress.user.name,
             progressType: progress.progressType,
             status: progress.status,
