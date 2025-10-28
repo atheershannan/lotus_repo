@@ -102,7 +102,7 @@ class RAGService {
             de.id,
             de.content_id as "contentId",
             de.content_type as "contentType",
-            de.text_segment as "contentText",
+            de.content_text as "contentText",
             1 - (de.embedding <=> $1::vector) as similarity,
             de.metadata
           FROM document_embeddings de
@@ -117,7 +117,7 @@ class RAGService {
             de.id,
             de.content_id as "contentId",
             de.content_type as "contentType",
-            de.text_segment as "contentText",
+            de.content_text as "contentText",
             1 - (de.embedding <=> $1::vector) as similarity,
             de.metadata
           FROM document_embeddings de
