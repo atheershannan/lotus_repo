@@ -33,7 +33,7 @@ router.post('/login', asyncHandler(async (req, res) => {
     // Accept demo credentials
     if (email === 'demo@company.com' && password === 'demo123') {
       const mockUser = {
-        id: 'demo-user-123',
+        id: '00000000-0000-0000-0000-000000000001', // Demo user UUID
         email: 'demo@company.com',
         name: 'Demo User',
         department: 'Engineering',

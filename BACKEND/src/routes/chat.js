@@ -27,8 +27,8 @@ router.post('/', asyncHandler(async (req, res) => {
 
     console.log('💬 Received chat message:', message);
 
-    // Use demo user for public chatbot
-    const userId = 'demo-user-123';
+    // Use demo user for public chatbot (fixed UUID)
+    const userId = '00000000-0000-0000-0000-000000000001'; // Demo user UUID
     // Generate proper UUID for session if not provided
     const session = sessionId || crypto.randomUUID();
 
@@ -132,7 +132,7 @@ const chatMessageSchema = Joi.object({
 // POST /api/chat/message - Send a chat message and get RAG response
 router.post('/message', authenticateToken, validateRequest(chatMessageSchema), asyncHandler(async (req, res) => {
   const { message, sessionId, options = {} } = req.body;
-  const userId = req.user?.id || 'demo-user-123';
+  const userId = req.user?.id || '00000000-0000-0000-0000-000000000001'; // Demo user UUID
 
   try {
     // Store user message (if prisma is available)

@@ -28,7 +28,7 @@ const authenticateToken = async (req, res, next) => {
       console.log('⚠️  Authentication skipped (Supabase not configured - mock mode)');
       // Set mock user for development
       req.user = {
-        id: 'demo-user-123',
+        id: '00000000-0000-0000-0000-000000000001', // Demo user UUID
         email: 'demo@example.com',
         name: 'Demo User',
         role: 'trainer',
