@@ -30,11 +30,16 @@ if (process.env.DATABASE_URL) {
 
 // Initialize Supabase client (only if URLs are provided)
 let supabase = null;
+console.log('🔍 Checking Supabase environment variables...');
+console.log('NEXT_PUBLIC_SUPABASE_URL:', process.env.NEXT_PUBLIC_SUPABASE_URL ? '✅ Set' : '❌ Missing');
+console.log('SUPABASE_SERVICE_ROLE_KEY:', process.env.SUPABASE_SERVICE_ROLE_KEY ? '✅ Set' : '❌ Missing');
+
 if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY) {
   supabase = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL,
     process.env.SUPABASE_SERVICE_ROLE_KEY
   );
+  console.log('✅ Supabase client initialized successfully');
 } else {
   console.log('⚠️  Supabase disabled (mock mode)');
 }

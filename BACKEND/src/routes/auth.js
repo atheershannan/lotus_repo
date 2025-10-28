@@ -8,11 +8,16 @@ const prisma = new PrismaClient();
 
 // Initialize Supabase client conditionally
 let supabase = null;
+console.log('🔍 [Auth Routes] Checking Supabase...');
+console.log('  NEXT_PUBLIC_SUPABASE_URL:', process.env.NEXT_PUBLIC_SUPABASE_URL ? '✅' : '❌');
+console.log('  SUPABASE_SERVICE_ROLE_KEY:', process.env.SUPABASE_SERVICE_ROLE_KEY ? '✅' : '❌');
+
 if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY) {
   supabase = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL,
     process.env.SUPABASE_SERVICE_ROLE_KEY
   );
+  console.log('✅ [Auth Routes] Supabase initialized');
 } else {
   console.log('⚠️  Supabase disabled in auth routes (mock mode)');
 }
