@@ -14,7 +14,8 @@
     "db:migrate": "prisma migrate dev",
     "db:generate": "prisma generate",
     "db:seed": "node src/database/seed.js",
-    "db:studio": "prisma studio"
+    "db:studio": "prisma studio",
+    "embeddings:generate": "node src/scripts/generate-embeddings.js"
   },
   "dependencies": {
     "express": "^4.18.2",
