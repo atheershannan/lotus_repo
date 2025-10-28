@@ -15,77 +15,56 @@ if (process.env.DATABASE_URL) {
   console.log('⚠️  Prisma disabled in chat routes (mock mode)');
 }
 
-// Simple chat endpoint with OpenAI integration for the chat widget
+// Simple chat endpoint with RAG integration for the chat widget (no auth required)
 router.post('/', asyncHandler(async (req, res) => {
   try {
-    const { message } = req.body;
+    const { message, sessionId } = req.body;
     
     if (!message) {
       return res.status(400).json({ error: 'Message is required' });
     }
 
-    // Check if OpenAI API key is configured
-    if (!process.env.OPENAI_API_KEY) {
-      console.error('❌ OPENAI_API_KEY not configured');
-      return res.status(500).json({ 
-        error: 'OpenAI API key not configured',
-        hint: 'Please set OPENAI_API_KEY environment variable in Railway'
-      });
-    }
-
-    // Initialize OpenAI client
-    const openai = new OpenAI({
-      apiKey: process.env.OPENAI_API_KEY,
-    });
-
-    if (!process.env.OPENAI_API_KEY) {
-      console.error("❌ Missing OPENAI_API_KEY in chat route – cannot connect to OpenAI.");
-      return res.status(500).json({ 
-        error: 'OpenAI API key not configured',
-        hint: 'Please set OPENAI_API_KEY environment variable in Railway'
-      });
-    }
-
     console.log('💬 Received chat message:', message);
 
-    // Call OpenAI API
-    const completion = await openai.chat.completions.create({
-      model: 'gpt-4o-mini',
-      messages: [
-        {
-          role: 'system',
-          content: 'You are a friendly Learning Assistant. Help users with their learning questions, provide explanations, and guide them through educational content. Be concise, helpful, and encouraging.'
-        },
-        {
-          role: 'user',
-          content: message
-        }
-      ],
-      max_tokens: 500,
-      temperature: 0.7
+    // Use demo user for public chatbot
+    const userId = 'demo-user-123';
+    const session = sessionId || 'demo-session-' + Date.now();
+
+    // Get RAG response with database context
+    const ragResponse = await ragService.generateRAGResponse(
+      message,
+      userId,
+      session,
+      {
+        matchThreshold: 0.7,
+        matchCount: 5
+      }
+    );
+
+    console.log('✅ Generated RAG reply with', ragResponse.sources?.length || 0, 'sources');
+
+    res.json({ 
+      reply: ragResponse.response,
+      confidence: ragResponse.confidence,
+      sources: ragResponse.sources,
+      responseTime: ragResponse.responseTime
     });
-
-    const reply = completion.choices[0].message.content;
-
-    console.log('✅ Generated reply:', reply.substring(0, 50) + '...');
-
-    res.json({ reply });
 
   } catch (error) {
     console.error('❌ Chat API error:', error);
     console.error('❌ Error type:', error.constructor.name);
     console.error('❌ Error message:', error.message);
     
-    // If OpenAI failed due to quota/billing, use mock responses
-    if (error.code === 'insufficient_quota' || error.status === 429) {
-      console.log('🎭 Falling back to mock response due to OpenAI quota/billing issue');
+    // If RAG failed, fall back to mock responses
+    if (error.code === 'insufficient_quota' || error.status === 429 || mockConfig.USE_MOCK_MODE) {
+      console.log('🎭 Falling back to mock response');
       const mockReply = mockConfig.getMockRAGResponse(message);
-      return res.json({ reply: mockReply });
+      return res.json({ reply: mockReply, confidence: 0.5, sources: [] });
     }
     
     // Return a friendly error message
     res.status(500).json({ 
-      error: 'Failed to get response from OpenAI',
+      error: 'Failed to get response',
       details: error.message,
       type: error.constructor.name
     });

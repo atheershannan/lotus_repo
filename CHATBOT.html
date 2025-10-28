@@ -358,14 +358,13 @@
             showTyping();
 
             try {
-                const response = await fetch(`${API_URL}/chat/simple`, {
+                const response = await fetch(`${API_URL}/chat`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
-                        message: message,
-                        sessionId: sessionId
+                        message: message
                     })
                 });
 
@@ -377,9 +376,8 @@
 
                 const data = await response.json();
                 
-                if (data.success) {
-                    addMessage(data.data.message, false);
-                    showStatus('הודעת נשלחה בהצלחה', 'success');
+                if (data.reply) {
+                    addMessage(data.reply, false);
                 } else {
                     throw new Error(data.error || 'Unknown error');
                 }
