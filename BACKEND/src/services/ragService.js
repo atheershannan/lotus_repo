@@ -138,7 +138,7 @@ class RAGService {
             // Skip queryEmbedding - Prisma doesn't support VECTOR type well
             searchResults: JSON.stringify(results),
             resultCount: results.length,
-            searchTimeMs: Date.now(), // This would be calculated properly in real implementation
+            searchTimeMs: 100, // Placeholder value (in ms)
             expiresAt
           }
         });

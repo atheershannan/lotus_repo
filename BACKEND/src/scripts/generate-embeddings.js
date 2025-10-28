@@ -65,7 +65,7 @@ Preferences: ${JSON.stringify(user.preferences)}
         data: {
           contentId: user.id,
           contentType: 'user',
-          textSegment: userText,
+          contentText: userText,
           embedding: `[${embedding.join(',')}]`,
           metadata: {
             userName: user.name,
@@ -187,7 +187,7 @@ Content Details: ${JSON.stringify(content.contentData)}
         data: {
           contentId: content.id,
           contentType: 'learning_content',
-          textSegment: contentText,
+          contentText: contentText,
           embedding: `[${embedding.join(',')}]`,
           metadata: {
             title: content.title,
@@ -257,7 +257,7 @@ Last Accessed: ${progress.lastAccessedAt}
         data: {
           contentId: progress.id,
           contentType: 'user_progress',
-          textSegment: progressText,
+          contentText: progressText,
           embedding: `[${embedding.join(',')}]`,
           metadata: {
             userName: progress.user.name,
