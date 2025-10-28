@@ -227,7 +227,7 @@ class RAGService {
             data: {
               userId,
               sessionId,
-              role: 'user',
+              messageType: 'user',
               content: query,
               metadata: { noContext: true }
             }
@@ -237,7 +237,7 @@ class RAGService {
             data: {
               userId,
               sessionId,
-              role: 'assistant',
+              messageType: 'assistant',
               content: response,
               metadata: { noContext: true, model: 'gpt-3.5-turbo' }
             }
