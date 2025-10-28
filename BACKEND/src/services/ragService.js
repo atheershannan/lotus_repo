@@ -186,17 +186,70 @@ class RAGService {
       }
 
       // Search for relevant documents
-      const relevantDocs = await this.searchSimilarDocuments(queryEmbedding, {
-        matchThreshold: options.matchThreshold || 0.7,
-        matchCount: options.matchCount || 5,
-        contentType: options.contentType
-      });
+      let relevantDocs = [];
+      try {
+        relevantDocs = await this.searchSimilarDocuments(queryEmbedding, {
+          matchThreshold: options.matchThreshold || 0.7,
+          matchCount: options.matchCount || 5,
+          contentType: options.contentType
+        });
+      } catch (searchError) {
+        console.log('⚠️  Vector search failed (non-critical):', searchError.message);
+        console.log('📝 Continuing with direct OpenAI response...');
+        // Continue with empty results - will use OpenAI without context
+      }
 
       if (relevantDocs.length === 0) {
+        console.log('📭 No relevant documents found, using general knowledge...');
+        
+        // Generate response using OpenAI without specific context
+        const completion = await openai.chat.completions.create({
+          model: 'gpt-3.5-turbo',
+          messages: [
+            {
+              role: 'system',
+              content: 'You are a helpful corporate learning assistant. Provide clear, professional responses to help users with their learning goals.'
+            },
+            {
+              role: 'user',
+              content: query
+            }
+          ],
+          temperature: 0.7,
+          max_tokens: 500
+        });
+
+        const response = completion.choices[0].message.content;
+
+        // Save chat message
+        try {
+          await prisma.chatMessage.create({
+            data: {
+              userId,
+              sessionId,
+              role: 'user',
+              content: query,
+              metadata: { noContext: true }
+            }
+          });
+
+          await prisma.chatMessage.create({
+            data: {
+              userId,
+              sessionId,
+              role: 'assistant',
+              content: response,
+              metadata: { noContext: true, model: 'gpt-3.5-turbo' }
+            }
+          });
+        } catch (saveError) {
+          console.log('⚠️  Could not save chat messages (non-critical):', saveError.message);
+        }
+
         return {
           success: true,
-          response: "I couldn't find relevant information for your query. Could you please rephrase your question or provide more context?",
-          confidence: 0.3,
+          response,
+          confidence: 0.5,
           sources: [],
           responseTime: Date.now() - startTime
         };
