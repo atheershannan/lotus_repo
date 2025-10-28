@@ -6,6 +6,7 @@ const { PrismaClient } = require('@prisma/client');
 const Joi = require('joi');
 const OpenAI = require('openai');
 const mockConfig = require('../config/mock');
+const crypto = require('crypto');
 
 // Only create Prisma if DATABASE_URL is set
 let prisma = null;
@@ -28,34 +29,80 @@ router.post('/', asyncHandler(async (req, res) => {
 
     // Use demo user for public chatbot
     const userId = 'demo-user-123';
-    const session = sessionId || 'demo-session-' + Date.now();
+    // Generate proper UUID for session if not provided
+    const session = sessionId || crypto.randomUUID();
 
-    // Get RAG response with database context
-    const ragResponse = await ragService.generateRAGResponse(
-      message,
-      userId,
-      session,
-      {
-        matchThreshold: 0.7,
-        matchCount: 5
+    try {
+      // Get RAG response with database context
+      const ragResponse = await ragService.generateRAGResponse(
+        message,
+        userId,
+        session,
+        {
+          matchThreshold: 0.7,
+          matchCount: 5
+        }
+      );
+
+      console.log('✅ Generated RAG reply with', ragResponse.sources?.length || 0, 'sources');
+
+      return res.json({ 
+        reply: ragResponse.response,
+        confidence: ragResponse.confidence,
+        sources: ragResponse.sources,
+        responseTime: ragResponse.responseTime
+      });
+    } catch (ragError) {
+      // Database connection error - fall back to direct OpenAI
+      if (ragError.constructor.name === 'PrismaClientInitializationError' || 
+          ragError.message.includes('database server') ||
+          ragError.message.includes('Can\'t reach database')) {
+        
+        console.log('⚠️  Database unavailable, falling back to direct OpenAI...');
+        
+        // Initialize OpenAI client
+        const openai = new OpenAI({
+          apiKey: process.env.OPENAI_API_KEY,
+        });
+
+        // Call OpenAI directly without RAG
+        const completion = await openai.chat.completions.create({
+          model: 'gpt-4o-mini',
+          messages: [
+            {
+              role: 'system',
+              content: 'You are a friendly Learning Assistant. Help users with their learning questions, provide explanations, and guide them through educational content. Be concise, helpful, and encouraging.'
+            },
+            {
+              role: 'user',
+              content: message
+            }
+          ],
+          max_tokens: 500,
+          temperature: 0.7
+        });
+
+        const reply = completion.choices[0].message.content;
+        console.log('✅ Generated direct OpenAI reply (no RAG)');
+
+        return res.json({ 
+          reply: reply,
+          confidence: 0.7,
+          sources: [],
+          note: 'Response generated without database context (database unavailable)'
+        });
       }
-    );
-
-    console.log('✅ Generated RAG reply with', ragResponse.sources?.length || 0, 'sources');
-
-    res.json({ 
-      reply: ragResponse.response,
-      confidence: ragResponse.confidence,
-      sources: ragResponse.sources,
-      responseTime: ragResponse.responseTime
-    });
+      
+      // Other RAG errors
+      throw ragError;
+    }
 
   } catch (error) {
     console.error('❌ Chat API error:', error);
     console.error('❌ Error type:', error.constructor.name);
     console.error('❌ Error message:', error.message);
     
-    // If RAG failed, fall back to mock responses
+    // If OpenAI failed, fall back to mock responses
     if (error.code === 'insufficient_quota' || error.status === 429 || mockConfig.USE_MOCK_MODE) {
       console.log('🎭 Falling back to mock response');
       const mockReply = mockConfig.getMockRAGResponse(message);

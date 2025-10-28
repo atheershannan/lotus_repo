@@ -150,16 +150,20 @@ class RAGService {
       // Generate embedding for the query
       const queryEmbedding = await this.generateEmbedding(query);
 
-      // Store query embedding
-      await prisma.queryEmbedding.create({
-        data: {
-          userId,
-          sessionId,
-          queryText: query,
-          embedding: `[${queryEmbedding.join(',')}]`,
-          metadata: { timestamp: new Date().toISOString() }
-        }
-      });
+      // Store query embedding (skip embedding field - Prisma doesn't support VECTOR type yet)
+      try {
+        await prisma.queryEmbedding.create({
+          data: {
+            userId,
+            sessionId,
+            queryText: query,
+            // Skip embedding field - Prisma doesn't support VECTOR type
+            metadata: { timestamp: new Date().toISOString() }
+          }
+        });
+      } catch (embeddingError) {
+        console.log('⚠️  Could not store query embedding (non-critical):', embeddingError.message);
+      }
 
       // Search for relevant documents
       const relevantDocs = await this.searchSimilarDocuments(queryEmbedding, {
