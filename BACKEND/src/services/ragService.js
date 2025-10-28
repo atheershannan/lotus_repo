@@ -128,15 +128,23 @@ class RAGService {
       }
 
       // Cache the results
-      await prisma.vectorSearchCache.create({
-        data: {
-          queryHash,
-          queryEmbedding: `[${queryEmbedding.join(',')}]`,
-          searchResults: JSON.stringify(results),
-          resultCount: results.length,
-          searchTimeMs: Date.now() // This would be calculated properly in real implementation
-        }
-      });
+      try {
+        const expiresAt = new Date();
+        expiresAt.setHours(expiresAt.getHours() + 1); // Expire in 1 hour
+        
+        await prisma.vectorSearchCache.create({
+          data: {
+            queryHash,
+            queryEmbedding: `[${queryEmbedding.join(',')}]`,
+            searchResults: JSON.stringify(results),
+            resultCount: results.length,
+            searchTimeMs: Date.now(), // This would be calculated properly in real implementation
+            expiresAt
+          }
+        });
+      } catch (cacheError) {
+        console.log('⚠️  Could not cache search results (non-critical):', cacheError.message);
+      }
 
       return results;
     } catch (error) {

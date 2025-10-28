@@ -294,9 +294,13 @@ async function main() {
 
     // Clear existing embeddings (optional - comment out if you want to keep old ones)
     console.log('🗑️  Clearing old embeddings...');
-    await prisma.documentEmbedding.deleteMany({});
-    await prisma.skillEmbedding.deleteMany({});
-    console.log('✅ Old embeddings cleared\n');
+    try {
+      await prisma.documentEmbedding.deleteMany({});
+      await prisma.skillEmbedding.deleteMany({});
+      console.log('✅ Old embeddings cleared\n');
+    } catch (deleteError) {
+      console.log('⚠️  Could not clear old embeddings (continuing anyway):', deleteError.message);
+    }
 
     // Generate all embeddings
     await generateUserEmbeddings();
