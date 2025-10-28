@@ -61,12 +61,12 @@ Preferences: ${JSON.stringify(user.preferences)}
       const embedding = await generateEmbedding(userText);
 
       // Store in document_embeddings table
-      await prisma.documentEmbedding.create({
+      // First create without embedding (Prisma doesn't support vector type in client)
+      const docEmbedding = await prisma.documentEmbedding.create({
         data: {
           // Don't set contentId for user embeddings - it's only for learning content relation
           contentType: 'user',
           contentText: userText,
-          embedding: `[${embedding.join(',')}]`,
           metadata: {
             userId: user.id,
             userName: user.name,
@@ -76,6 +76,13 @@ Preferences: ${JSON.stringify(user.preferences)}
           }
         }
       });
+
+      // Then update with embedding using raw SQL
+      await prisma.$executeRaw`
+        UPDATE document_embeddings 
+        SET embedding = ${`[${embedding.join(',')}]`}::vector
+        WHERE id = ${docEmbedding.id}::uuid
+      `;
 
       console.log(`  ✅ ${user.name}`);
     } catch (error) {
@@ -121,10 +128,11 @@ Learning Objectives: ${JSON.stringify(skill.learningObjectives)}
       const embedding = await generateEmbedding(skillText);
 
       // Store in skill_embeddings table
-      await prisma.skillEmbedding.create({
+      // First create without embedding (Prisma doesn't support vector type in client)
+      const skillEmbedding = await prisma.skillEmbedding.create({
         data: {
           skillId: skill.id,
-          embedding: `[${embedding.join(',')}]`,
+          skillText: skillText, // Required field that was missing!
           metadata: {
             skillName: skill.name,
             category: skill.category,
@@ -133,6 +141,13 @@ Learning Objectives: ${JSON.stringify(skill.learningObjectives)}
           }
         }
       });
+
+      // Then update with embedding using raw SQL
+      await prisma.$executeRaw`
+        UPDATE skill_embeddings 
+        SET embedding = ${`[${embedding.join(',')}]`}::vector
+        WHERE id = ${skillEmbedding.id}::uuid
+      `;
 
       console.log(`  ✅ ${skill.name}`);
     } catch (error) {
@@ -184,12 +199,12 @@ Content Details: ${JSON.stringify(content.contentData)}
       const embedding = await generateEmbedding(contentText);
 
       // Store in document_embeddings table
-      await prisma.documentEmbedding.create({
+      // First create without embedding (Prisma doesn't support vector type in client)
+      const docEmbedding = await prisma.documentEmbedding.create({
         data: {
           contentId: content.id,
           contentType: 'learning_content',
           contentText: contentText,
-          embedding: `[${embedding.join(',')}]`,
           metadata: {
             title: content.title,
             contentType: content.contentType,
@@ -199,6 +214,13 @@ Content Details: ${JSON.stringify(content.contentData)}
           }
         }
       });
+
+      // Then update with embedding using raw SQL
+      await prisma.$executeRaw`
+        UPDATE document_embeddings 
+        SET embedding = ${`[${embedding.join(',')}]`}::vector
+        WHERE id = ${docEmbedding.id}::uuid
+      `;
 
       console.log(`  ✅ ${content.title}`);
     } catch (error) {
@@ -254,12 +276,12 @@ Last Accessed: ${progress.lastAccessedAt}
       const embedding = await generateEmbedding(progressText);
 
       // Store in document_embeddings table
-      await prisma.documentEmbedding.create({
+      // First create without embedding (Prisma doesn't support vector type in client)
+      const docEmbedding = await prisma.documentEmbedding.create({
         data: {
           // Don't set contentId for progress embeddings - it's only for learning content relation
           contentType: 'user_progress',
           contentText: progressText,
-          embedding: `[${embedding.join(',')}]`,
           metadata: {
             progressId: progress.id,
             userName: progress.user.name,
@@ -270,6 +292,13 @@ Last Accessed: ${progress.lastAccessedAt}
           }
         }
       });
+
+      // Then update with embedding using raw SQL
+      await prisma.$executeRaw`
+        UPDATE document_embeddings 
+        SET embedding = ${`[${embedding.join(',')}]`}::vector
+        WHERE id = ${docEmbedding.id}::uuid
+      `;
 
       console.log(`  ✅ Progress for ${progress.user.name}`);
     } catch (error) {
