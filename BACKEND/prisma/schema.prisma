@@ -17,7 +17,7 @@ model User {
   name              String
   department        String?
   role              String    @default("learner")
-  learningProfile   Json      @default("{}")
+  learningProfile   Json      @default("{}") @map("learning_profile")
   preferences       Json      @default("{}")
   createdAt         DateTime  @default(now()) @map("created_at")
   updatedAt         DateTime  @updatedAt @map("updated_at")
