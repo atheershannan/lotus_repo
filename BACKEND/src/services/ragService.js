@@ -135,7 +135,7 @@ class RAGService {
         await prisma.vectorSearchCache.create({
           data: {
             queryHash,
-            queryEmbedding: `[${queryEmbedding.join(',')}]`,
+            // Skip queryEmbedding - Prisma doesn't support VECTOR type well
             searchResults: JSON.stringify(results),
             resultCount: results.length,
             searchTimeMs: Date.now(), // This would be calculated properly in real implementation

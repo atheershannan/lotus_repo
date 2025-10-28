@@ -43,7 +43,7 @@ model Skill {
   category            String?
   level               String    @default("beginner")
   prerequisites       Json      @default("[]")
-  learningObjectives  Json      @default("[]")
+  learningObjectives  Json      @default("[]") @map("learning_objectives")
   createdAt           DateTime  @default(now()) @map("created_at")
   updatedAt           DateTime  @updatedAt @map("updated_at")
 
