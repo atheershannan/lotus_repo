@@ -226,6 +226,7 @@ app.use('/api/chat', require('./routes/chat'));
 app.use('/api/recommendations', require('./routes/recommendations'));
 app.use('/api/analytics', require('./routes/analytics'));
 app.use('/api/search', require('./routes/search'));
+app.use('/api/embeddings', require('./routes/embeddings'));
 
 // Error handling middleware
 app.use((err, req, res, next) => {
