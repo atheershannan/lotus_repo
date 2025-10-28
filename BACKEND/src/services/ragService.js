@@ -92,20 +92,40 @@ class RAGService {
       }
 
       // Perform vector search using database function
-      const results = await prisma.$queryRaw`
-        SELECT 
-          de.id,
-          de.content_id as "contentId",
-          de.content_type as "contentType",
-          de.content_text as "contentText",
-          1 - (de.embedding <=> ${`[${queryEmbedding.join(',')}]`}::vector) as similarity,
-          de.metadata
-        FROM document_embeddings de
-        WHERE 1 - (de.embedding <=> ${`[${queryEmbedding.join(',')}]`}::vector) > ${matchThreshold}
-        ${contentType ? prisma.$queryRaw`AND de.content_type = ${contentType}` : prisma.$queryRaw``}
-        ORDER BY de.embedding <=> ${`[${queryEmbedding.join(',')}]`}::vector
-        LIMIT ${matchCount}
-      `;
+      const embeddingStr = `[${queryEmbedding.join(',')}]`;
+      
+      // Build query based on whether contentType filter is needed
+      let results;
+      if (contentType) {
+        results = await prisma.$queryRawUnsafe(`
+          SELECT 
+            de.id,
+            de.content_id as "contentId",
+            de.content_type as "contentType",
+            de.text_segment as "contentText",
+            1 - (de.embedding <=> $1::vector) as similarity,
+            de.metadata
+          FROM document_embeddings de
+          WHERE 1 - (de.embedding <=> $1::vector) > $2
+            AND de.content_type = $3
+          ORDER BY de.embedding <=> $1::vector
+          LIMIT $4
+        `, embeddingStr, matchThreshold, contentType, matchCount);
+      } else {
+        results = await prisma.$queryRawUnsafe(`
+          SELECT 
+            de.id,
+            de.content_id as "contentId",
+            de.content_type as "contentType",
+            de.text_segment as "contentText",
+            1 - (de.embedding <=> $1::vector) as similarity,
+            de.metadata
+          FROM document_embeddings de
+          WHERE 1 - (de.embedding <=> $1::vector) > $2
+          ORDER BY de.embedding <=> $1::vector
+          LIMIT $3
+        `, embeddingStr, matchThreshold, matchCount);
+      }
 
       // Cache the results
       await prisma.vectorSearchCache.create({
@@ -251,18 +271,22 @@ Guidelines:
     } catch (error) {
       console.error('Error generating RAG response:', error);
       
-      // Store error message
-      await prisma.chatMessage.create({
-        data: {
-          userId,
-          sessionId,
-          messageType: 'assistant',
-          content: "I apologize, but I encountered an error while processing your request. Please try again.",
-          confidenceScore: 0.1,
-          responseTimeMs: Date.now() - startTime,
-          metadata: { error: error.message }
-        }
-      });
+      // Store error message (skip if sessionId is invalid)
+      try {
+        await prisma.chatMessage.create({
+          data: {
+            userId,
+            sessionId,
+            messageType: 'assistant',
+            content: "I apologize, but I encountered an error while processing your request. Please try again.",
+            confidenceScore: 0.1,
+            responseTimeMs: Date.now() - startTime,
+            metadata: { error: error.message }
+          }
+        });
+      } catch (saveError) {
+        console.log('⚠️  Could not save error message:', saveError.message);
+      }
 
       return {
         success: false,
