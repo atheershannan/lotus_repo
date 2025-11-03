@@ -3,6 +3,11 @@
 
 -- Insert sample users
 INSERT INTO users (id, email, name, department, role, learning_profile, preferences) VALUES
+-- Demo user for public chatbot (no authentication required)
+('00000000-0000-0000-0000-000000000001', 'demo@company.com', 'Demo User', 'General', 'learner',
+ '{"skills": [], "interests": ["learning"], "learning_style": "visual"}',
+ '{"notifications": false, "theme": "light", "language": "en"}'),
+
 ('550e8400-e29b-41d4-a716-446655440001', 'john.doe@company.com', 'John Doe', 'Engineering', 'learner', 
  '{"skills": ["javascript", "react", "nodejs"], "interests": ["web development", "machine learning"], "learning_style": "visual"}',
  '{"notifications": true, "theme": "light", "language": "en"}'),
@@ -96,24 +101,28 @@ INSERT INTO learning_content (id, title, description, content_type, content_data
  '550e8400-e29b-41d4-a716-446655440003', true);
 
 -- Insert sample user progress
-INSERT INTO user_progress (user_id, content_id, progress_type, completion_percentage, status, started_at, last_accessed_at) VALUES
-('550e8400-e29b-41d4-a716-446655440001', '770e8400-e29b-41d4-a716-446655440001', 'content', 75.0, 'in_progress', '2024-01-15 09:00:00', '2024-01-20 14:30:00'),
-('550e8400-e29b-41d4-a716-446655440001', '770e8400-e29b-41d4-a716-446655440002', 'content', 100.0, 'completed', '2024-01-10 10:00:00', '2024-01-18 16:45:00'),
-('550e8400-e29b-41d4-a716-446655440001', '660e8400-e29b-41d4-a716-446655440001', 'skill', 80.0, 'in_progress', '2024-01-12 08:30:00', '2024-01-19 11:20:00'),
-('550e8400-e29b-41d4-a716-446655440001', '660e8400-e29b-41d4-a716-446655440002', 'skill', 100.0, 'completed', '2024-01-08 09:15:00', '2024-01-17 15:30:00'),
-('550e8400-e29b-41d4-a716-446655440002', '770e8400-e29b-41d4-a716-446655440004', 'content', 60.0, 'in_progress', '2024-01-14 13:00:00', '2024-01-21 10:15:00'),
-('550e8400-e29b-41d4-a716-446655440002', '770e8400-e29b-41d4-a716-446655440005', 'content', 100.0, 'completed', '2024-01-05 14:30:00', '2024-01-16 12:00:00'),
-('550e8400-e29b-41d4-a716-446655440002', '660e8400-e29b-41d4-a716-446655440004', 'skill', 90.0, 'in_progress', '2024-01-11 11:45:00', '2024-01-20 09:30:00'),
-('550e8400-e29b-41d4-a716-446655440002', '660e8400-e29b-41d4-a716-446655440005', 'skill', 100.0, 'completed', '2024-01-03 15:20:00', '2024-01-15 14:45:00');
+-- For content progress (use content_id)
+INSERT INTO user_progress (user_id, content_id, skill_id, progress_type, completion_percentage, status, started_at, last_accessed_at) VALUES
+('550e8400-e29b-41d4-a716-446655440001', '770e8400-e29b-41d4-a716-446655440001', NULL, 'content', 75.0, 'in_progress', '2024-01-15 09:00:00', '2024-01-20 14:30:00'),
+('550e8400-e29b-41d4-a716-446655440001', '770e8400-e29b-41d4-a716-446655440002', NULL, 'content', 100.0, 'completed', '2024-01-10 10:00:00', '2024-01-18 16:45:00'),
+('550e8400-e29b-41d4-a716-446655440002', '770e8400-e29b-41d4-a716-446655440004', NULL, 'content', 60.0, 'in_progress', '2024-01-14 13:00:00', '2024-01-21 10:15:00'),
+('550e8400-e29b-41d4-a716-446655440002', '770e8400-e29b-41d4-a716-446655440005', NULL, 'content', 100.0, 'completed', '2024-01-05 14:30:00', '2024-01-16 12:00:00');
+
+-- For skill progress (use skill_id)
+INSERT INTO user_progress (user_id, content_id, skill_id, progress_type, completion_percentage, status, started_at, last_accessed_at) VALUES
+('550e8400-e29b-41d4-a716-446655440001', NULL, '660e8400-e29b-41d4-a716-446655440001', 'skill', 80.0, 'in_progress', '2024-01-12 08:30:00', '2024-01-19 11:20:00'),
+('550e8400-e29b-41d4-a716-446655440001', NULL, '660e8400-e29b-41d4-a716-446655440002', 'skill', 100.0, 'completed', '2024-01-08 09:15:00', '2024-01-17 15:30:00'),
+('550e8400-e29b-41d4-a716-446655440002', NULL, '660e8400-e29b-41d4-a716-446655440004', 'skill', 90.0, 'in_progress', '2024-01-11 11:45:00', '2024-01-20 09:30:00'),
+('550e8400-e29b-41d4-a716-446655440002', NULL, '660e8400-e29b-41d4-a716-446655440005', 'skill', 100.0, 'completed', '2024-01-03 15:20:00', '2024-01-15 14:45:00');
 
 -- Insert sample chat messages
 INSERT INTO chat_messages (user_id, session_id, message_type, content, confidence_score, response_time_ms) VALUES
-('550e8400-e29b-41d4-a716-446655440001', 'session-001', 'user', 'What JavaScript concepts should I focus on next?', NULL, NULL),
-('550e8400-e29b-41d4-a716-446655440001', 'session-001', 'assistant', 'Based on your progress in JavaScript Fundamentals, I recommend focusing on: 1) Async programming with Promises and async/await, 2) ES6+ features like destructuring and arrow functions, 3) Error handling and debugging techniques. These will prepare you well for React development.', 0.92, 1250),
-('550e8400-e29b-41d4-a716-446655440001', 'session-001', 'user', 'Can you recommend some practice exercises?', NULL, NULL),
-('550e8400-e29b-41d4-a716-446655440001', 'session-001', 'assistant', 'Here are some great practice exercises: 1) Build a todo list with local storage, 2) Create a weather app using an API, 3) Implement a simple calculator with error handling, 4) Build a quiz application with timer functionality. These projects will help you apply the concepts you\'ve learned.', 0.88, 980),
-('550e8400-e29b-41d4-a716-446655440002', 'session-002', 'user', 'How can I improve my team\'s learning culture?', NULL, NULL),
-('550e8400-e29b-41d4-a716-446655440002', 'session-002', 'assistant', 'To improve your team\'s learning culture, consider: 1) Lead by example - share your own learning journey, 2) Create learning time - allocate dedicated time for skill development, 3) Encourage knowledge sharing - organize lunch-and-learn sessions, 4) Recognize learning achievements - celebrate milestones and certifications, 5) Provide resources - ensure access to learning materials and tools.', 0.95, 1100);
+('550e8400-e29b-41d4-a716-446655440001', '880e8400-e29b-41d4-a716-446655440001', 'user', 'What JavaScript concepts should I focus on next?', NULL, NULL),
+('550e8400-e29b-41d4-a716-446655440001', '880e8400-e29b-41d4-a716-446655440001', 'assistant', 'Based on your progress in JavaScript Fundamentals, I recommend focusing on: 1) Async programming with Promises and async/await, 2) ES6+ features like destructuring and arrow functions, 3) Error handling and debugging techniques. These will prepare you well for React development.', 0.92, 1250),
+('550e8400-e29b-41d4-a716-446655440001', '880e8400-e29b-41d4-a716-446655440001', 'user', 'Can you recommend some practice exercises?', NULL, NULL),
+('550e8400-e29b-41d4-a716-446655440001', '880e8400-e29b-41d4-a716-446655440001', 'assistant', 'Here are some great practice exercises: 1) Build a todo list with local storage, 2) Create a weather app using an API, 3) Implement a simple calculator with error handling, 4) Build a quiz application with timer functionality. These projects will help you apply the concepts you''ve learned.', 0.88, 980),
+('550e8400-e29b-41d4-a716-446655440002', '880e8400-e29b-41d4-a716-446655440002', 'user', 'How can I improve my team''s learning culture?', NULL, NULL),
+('550e8400-e29b-41d4-a716-446655440002', '880e8400-e29b-41d4-a716-446655440002', 'assistant', 'To improve your team''s learning culture, consider: 1) Lead by example - share your own learning journey, 2) Create learning time - allocate dedicated time for skill development, 3) Encourage knowledge sharing - organize lunch-and-learn sessions, 4) Recognize learning achievements - celebrate milestones and certifications, 5) Provide resources - ensure access to learning materials and tools.', 0.95, 1100);
 
 -- Insert sample recommendations
 INSERT INTO recommendations (user_id, recommendation_type, target_id, target_type, reason, confidence_score, metadata) VALUES

@@ -1,297 +1,51 @@
-# 🔍 CODE REVIEW TEMPLATE
+# 👥 STAGE 04: BACKEND CODE REVIEW TEMPLATE
 
-## 🎯 Code Review Checklist
-
-**Project Name**: [Project Name from Stage 1]
-**Reviewer**: [Reviewer Name]
-**Review Date**: [Current Date]
-**Code Author**: [Author Name]
-**Pull Request**: [PR Number/Link]
+> **Code review checklist for backend implementation (Stage 08 will reference this)**
 
 ---
 
-## 📋 Pre-Review Checklist
+## 🔍 CODE REVIEW CHECKLIST
 
-### Prerequisites
-- [ ] **Code Compiles**: Code compiles without errors
-- [ ] **Tests Pass**: All tests are passing
-- [ ] **Documentation**: Code is properly documented
-- [ ] **Style Guide**: Code follows style guide
-- [ ] **Security Scan**: Security scan completed
+### Functionality
+- [ ] All tests passing
+- [ ] Endpoints match ENDPOINTS_SPEC.md
+- [ ] Error handling implemented
+- [ ] Input validation present
 
-### Review Preparation
-- [ ] **Understand Requirements**: Review requirements and user stories
-- [ ] **Review Architecture**: Understand system architecture
-- [ ] **Check Dependencies**: Review any new dependencies
-- [ ] **Review Tests**: Check test coverage and quality
+### Code Quality
+- [ ] Functions are small and focused
+- [ ] Naming is clear and descriptive
+- [ ] No code duplication
+- [ ] Comments where needed
 
----
+### Security
+- [ ] Input sanitization
+- [ ] Authentication checks
+- [ ] Authorization checks
+- [ ] No SQL injection risks
+- [ ] No secrets in code
 
-## 🧪 Code Quality Review
+### Performance
+- [ ] Database queries optimized
+- [ ] No N+1 queries
+- [ ] Appropriate indexes used
+- [ ] Caching where beneficial
 
-### 1. Code Structure and Organization
-- [ ] **File Organization**: Files are logically organized
-- [ ] **Module Separation**: Clear separation of concerns
-- [ ] **Function Size**: Functions are appropriately sized
-- [ ] **Class Design**: Classes follow single responsibility principle
-- [ ] **Naming Conventions**: Names are clear and descriptive
-
-### 2. Code Readability
-- [ ] **Comments**: Code is well-commented
-- [ ] **Documentation**: Functions and classes are documented
-- [ ] **Indentation**: Consistent indentation
-- [ ] **Line Length**: Lines are not too long
-- [ ] **Whitespace**: Appropriate use of whitespace
-
-### 3. Code Complexity
-- [ ] **Cyclomatic Complexity**: Low complexity (< 10)
-- [ ] **Nested Loops**: Minimal nesting
-- [ ] **Conditional Logic**: Clear and simple
-- [ ] **Function Parameters**: Reasonable number of parameters
-- [ ] **Return Values**: Clear return types
+### Testing
+- [ ] Test coverage ≥80%
+- [ ] Tests are readable
+- [ ] Tests are independent
+- [ ] Mocks used appropriately
 
 ---
 
-## 🔒 Security Review
+## 📝 REVIEW NOTES
 
-### 1. Input Validation
-- [ ] **Input Sanitization**: All inputs are sanitized
-- [ ] **SQL Injection**: No SQL injection vulnerabilities
-- [ ] **XSS Prevention**: XSS protection implemented
-- [ ] **CSRF Protection**: CSRF tokens used where needed
-- [ ] **File Upload Security**: Secure file upload handling
-
-### 2. Authentication and Authorization
-- [ ] **Authentication**: Proper authentication implementation
-- [ ] **Authorization**: Appropriate authorization checks
-- [ ] **Session Management**: Secure session handling
-- [ ] **Password Security**: Secure password handling
-- [ ] **Token Security**: Secure token implementation
-
-### 3. Data Protection
-- [ ] **Data Encryption**: Sensitive data encrypted
-- [ ] **Data Validation**: Data validation on all inputs
-- [ ] **Error Handling**: No sensitive data in error messages
-- [ ] **Logging Security**: No sensitive data in logs
-- [ ] **API Security**: API endpoints properly secured
+[Use this section during actual code review in Stage 08]
 
 ---
 
-## ⚡ Performance Review
+**Template Version:** 1.0.0  
+**Stage:** 04/09 (Planning)  
+**Usage:** Referenced in Stage 08 (Implementation)
 
-### 1. Database Performance
-- [ ] **Query Optimization**: Queries are optimized
-- [ ] **Index Usage**: Appropriate use of indexes
-- [ ] **N+1 Queries**: No N+1 query problems
-- [ ] **Connection Pooling**: Database connections pooled
-- [ ] **Caching**: Appropriate caching implemented
-
-### 2. API Performance
-- [ ] **Response Time**: API responses are fast
-- [ ] **Rate Limiting**: Rate limiting implemented
-- [ ] **Pagination**: Large datasets paginated
-- [ ] **Compression**: Response compression enabled
-- [ ] **CDN Usage**: Static content served via CDN
-
-### 3. Memory and CPU Usage
-- [ ] **Memory Leaks**: No memory leaks
-- [ ] **CPU Usage**: Efficient CPU usage
-- [ ] **Resource Cleanup**: Resources properly cleaned up
-- [ ] **Garbage Collection**: Efficient garbage collection
-- [ ] **Memory Allocation**: Efficient memory allocation
-
----
-
-## 🧪 Testing Review
-
-### 1. Test Coverage
-- [ ] **Unit Tests**: Adequate unit test coverage
-- [ ] **Integration Tests**: Integration tests present
-- [ ] **E2E Tests**: End-to-end tests implemented
-- [ ] **Test Quality**: Tests are well-written
-- [ ] **Test Maintenance**: Tests are maintainable
-
-### 2. Test Implementation
-- [ ] **Test Structure**: Tests follow good structure
-- [ ] **Test Data**: Appropriate test data used
-- [ ] **Mocking**: Proper use of mocks
-- [ ] **Assertions**: Clear and meaningful assertions
-- [ ] **Test Isolation**: Tests are isolated
-
-### 3. Test Scenarios
-- [ ] **Happy Path**: Happy path scenarios tested
-- [ ] **Edge Cases**: Edge cases covered
-- [ ] **Error Cases**: Error scenarios tested
-- [ ] **Boundary Conditions**: Boundary conditions tested
-- [ ] **Negative Tests**: Negative test cases present
-
----
-
-## 🔧 Technical Review
-
-### 1. API Design
-- [ ] **RESTful Design**: API follows REST principles
-- [ ] **HTTP Methods**: Appropriate HTTP methods used
-- [ ] **Status Codes**: Correct HTTP status codes
-- [ ] **Error Handling**: Consistent error handling
-- [ ] **API Documentation**: API properly documented
-
-### 2. Database Design
-- [ ] **Schema Design**: Database schema is well-designed
-- [ ] **Relationships**: Proper relationships between tables
-- [ ] **Constraints**: Appropriate constraints in place
-- [ ] **Indexes**: Proper indexing strategy
-- [ ] **Migrations**: Database migrations are safe
-
-### 3. Error Handling
-- [ ] **Error Types**: Appropriate error types used
-- [ ] **Error Messages**: Clear and helpful error messages
-- [ ] **Error Logging**: Errors are properly logged
-- [ ] **Error Recovery**: Error recovery mechanisms
-- [ ] **Error Monitoring**: Error monitoring in place
-
----
-
-## 📚 Documentation Review
-
-### 1. Code Documentation
-- [ ] **Function Documentation**: Functions are documented
-- [ ] **Class Documentation**: Classes are documented
-- [ ] **API Documentation**: API endpoints documented
-- [ ] **README**: README is up to date
-- [ ] **Comments**: Code comments are helpful
-
-### 2. Technical Documentation
-- [ ] **Architecture Docs**: Architecture documented
-- [ ] **Setup Instructions**: Setup instructions clear
-- [ ] **Deployment Docs**: Deployment documented
-- [ ] **Troubleshooting**: Troubleshooting guide present
-- [ ] **API Reference**: Complete API reference
-
----
-
-## 🚀 Deployment Review
-
-### 1. Environment Configuration
-- [ ] **Environment Variables**: Proper use of environment variables
-- [ ] **Configuration Management**: Configuration properly managed
-- [ ] **Secrets Management**: Secrets properly managed
-- [ ] **Environment Separation**: Clear environment separation
-- [ ] **Configuration Validation**: Configuration validated
-
-### 2. Deployment Readiness
-- [ ] **Build Process**: Build process is reliable
-- [ ] **Dependencies**: Dependencies are properly managed
-- [ ] **Version Control**: Proper version control
-- [ ] **Rollback Plan**: Rollback plan in place
-- [ ] **Monitoring**: Monitoring and alerting configured
-
----
-
-## 📊 Review Metrics
-
-### Code Quality Metrics
-- **Lines of Code**: [Number]
-- **Cyclomatic Complexity**: [Average]
-- **Test Coverage**: [Percentage]
-- **Code Duplication**: [Percentage]
-- **Technical Debt**: [Estimated hours]
-
-### Review Metrics
-- **Review Time**: [Hours]
-- **Issues Found**: [Number]
-- **Critical Issues**: [Number]
-- **Minor Issues**: [Number]
-- **Suggestions**: [Number]
-
----
-
-## 🚨 Issues Found
-
-### Critical Issues (Must Fix)
-- [ ] **Issue 1**: [Description]
-  - **Location**: [File:Line]
-  - **Severity**: Critical
-  - **Impact**: [Description]
-  - **Fix**: [Suggested fix]
-
-- [ ] **Issue 2**: [Description]
-  - **Location**: [File:Line]
-  - **Severity**: Critical
-  - **Impact**: [Description]
-  - **Fix**: [Suggested fix]
-
-### Major Issues (Should Fix)
-- [ ] **Issue 1**: [Description]
-  - **Location**: [File:Line]
-  - **Severity**: Major
-  - **Impact**: [Description]
-  - **Fix**: [Suggested fix]
-
-- [ ] **Issue 2**: [Description]
-  - **Location**: [File:Line]
-  - **Severity**: Major
-  - **Impact**: [Description]
-  - **Fix**: [Suggested fix]
-
-### Minor Issues (Could Fix)
-- [ ] **Issue 1**: [Description]
-  - **Location**: [File:Line]
-  - **Severity**: Minor
-  - **Impact**: [Description]
-  - **Fix**: [Suggested fix]
-
-### Suggestions (Nice to Have)
-- [ ] **Suggestion 1**: [Description]
-- [ ] **Suggestion 2**: [Description]
-
----
-
-## ✅ Review Summary
-
-### Overall Assessment
-- **Code Quality**: [Excellent/Good/Fair/Poor]
-- **Security**: [Excellent/Good/Fair/Poor]
-- **Performance**: [Excellent/Good/Fair/Poor]
-- **Testability**: [Excellent/Good/Fair/Poor]
-- **Maintainability**: [Excellent/Good/Fair/Poor]
-
-### Recommendations
-1. **Immediate Actions**: [List critical issues to fix]
-2. **Short-term Improvements**: [List major issues to address]
-3. **Long-term Enhancements**: [List suggestions for future]
-
-### Approval Status
-- [ ] **Approved**: Code is ready for merge
-- [ ] **Approved with Changes**: Code approved after addressing issues
-- [ ] **Needs Revision**: Code needs significant changes
-- [ ] **Rejected**: Code is not acceptable
-
-### Next Steps
-1. **Address Critical Issues**: Fix all critical issues
-2. **Address Major Issues**: Fix major issues if possible
-3. **Update Documentation**: Update documentation as needed
-4. **Re-review**: Schedule re-review if needed
-
----
-
-## 📝 Review Notes
-
-### Positive Aspects
-- [List positive aspects of the code]
-
-### Areas for Improvement
-- [List areas that need improvement]
-
-### Learning Opportunities
-- [List learning opportunities for the team]
-
-### Best Practices Observed
-- [List best practices observed in the code]
-
----
-
-**Review Status**: [In Progress/Complete]
-**Reviewer Signature**: [Name and Date]
-**Author Response**: [Author's response to review]
-**Final Approval**: [Final approval status]

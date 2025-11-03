@@ -1,318 +1,308 @@
-# 🛠️ GLOBAL FALLBACKS & ERROR HANDLING
+# 🆘 GLOBAL FALLBACKS & RECOVERY PROCEDURES
 
-## 🚨 Error Recovery System
-
-This document provides comprehensive error handling and recovery procedures for the full-stack template system.
-
-## 🔍 Common Error Scenarios
-
-### 1. Dynamic Questions Not Appearing
-
-**Symptoms**:
-- Stage starts but no questions are generated
-- Template appears incomplete
-- System skips question phase
-
-**Causes**:
-- Missing context from previous stages
-- Template file corruption
-- Dependency issues
-
-**Recovery Steps**:
-1. **Check Context**: Verify previous stage outputs exist
-2. **Validate Templates**: Ensure template files are complete
-3. **Reset Stage**: Use reset mechanism if needed
-4. **Manual Override**: Add required data manually
-
-**Prevention**:
-- Always complete previous stages fully
-- Validate template files before use
-- Maintain consistent data formats
-
-### 2. Stage Won't Unlock
-
-**Symptoms**:
-- Next stage remains blocked
-- Dependencies not recognized
-- Progress tracking fails
-
-**Causes**:
-- Previous stage not marked complete
-- Missing required outputs
-- ROADMAP.md corruption
-
-**Recovery Steps**:
-1. **Check ROADMAP.md**: Verify stage status
-2. **Validate Dependencies**: Ensure prerequisites met
-3. **Manual Override**: Update ROADMAP.md manually
-4. **Reset Dependencies**: Clear and rebuild dependency chain
-
-**Prevention**:
-- Always mark stages complete
-- Validate outputs before proceeding
-- Regular ROADMAP.md backups
-
-### 3. Generation Fails
-
-**Symptoms**:
-- Content generation stops
-- Error messages appear
-- Incomplete outputs
-
-**Causes**:
-- Invalid input data
-- Template syntax errors
-- Missing dependencies
-
-**Recovery Steps**:
-1. **Check Error Logs**: Review error messages
-2. **Validate Inputs**: Ensure data format is correct
-3. **Fix Templates**: Correct syntax errors
-4. **Retry Generation**: Restart generation process
-
-**Prevention**:
-- Validate inputs before generation
-- Test templates regularly
-- Use consistent data formats
-
-### 4. Data Inconsistencies
-
-**Symptoms**:
-- Conflicting information between stages
-- Validation errors
-- System confusion
-
-**Causes**:
-- Manual edits without validation
-- Template conflicts
-- Version control issues
-
-**Recovery Steps**:
-1. **Identify Conflicts**: Find inconsistent data
-2. **Resolve Conflicts**: Choose correct values
-3. **Update Dependencies**: Propagate changes
-4. **Validate System**: Ensure consistency
-
-**Prevention**:
-- Use validation checks
-- Maintain data integrity
-- Regular consistency audits
-
-## 🔄 Recovery Procedures
-
-### Stage Reset Procedure
-
-**When to Use**:
-- Major scope changes
-- Technology stack changes
-- Data corruption
-- Template errors
-
-**Steps**:
-1. **Backup Current State**:
-   ```bash
-   cp ROADMAP.md ROADMAP.md.backup
-   cp -r Stage_XX_* Stage_XX_*.backup
-   ```
-
-2. **Add Reset Command**:
-   ```
-   RESET_STAGE: Stage_XX_Name
-   ```
-
-3. **Confirm Reset**:
-   - System asks for confirmation
-   - Review impact of reset
-   - Confirm or cancel
-
-4. **Execute Reset**:
-   - Clear stage data
-   - Reset timestamps
-   - Update dependencies
-   - Mark as pending
-
-5. **Restart Stage**:
-   - Begin with dynamic questions
-   - Rebuild stage content
-   - Validate outputs
-
-### Data Recovery Procedure
-
-**When to Use**:
-- Data loss or corruption
-- Accidental deletions
-- Version control issues
-
-**Steps**:
-1. **Identify Lost Data**:
-   - Check ROADMAP.md for gaps
-   - Review stage outputs
-   - Identify missing files
-
-2. **Restore from Backup**:
-   ```bash
-   git checkout HEAD~1 -- Stage_XX_*
-   cp ROADMAP.md.backup ROADMAP.md
-   ```
-
-3. **Validate Restored Data**:
-   - Check data integrity
-   - Verify dependencies
-   - Test functionality
-
-4. **Update Dependencies**:
-   - Rebuild dependency chain
-   - Update ROADMAP.md
-   - Validate system state
-
-### Template Recovery Procedure
-
-**When to Use**:
-- Template file corruption
-- Missing template files
-- Syntax errors in templates
-
-**Steps**:
-1. **Identify Template Issues**:
-   - Check template syntax
-   - Verify file completeness
-   - Test template functionality
-
-2. **Restore Templates**:
-   ```bash
-   git checkout HEAD -- FULLSTACK_TEMPLATES/
-   ```
-
-3. **Validate Templates**:
-   - Test all templates
-   - Verify syntax
-   - Check functionality
-
-4. **Update Customizations**:
-   - Reapply custom changes
-   - Test modified templates
-   - Validate system
-
-## 🛡️ Prevention Strategies
-
-### Data Integrity
-- **Regular Backups**: Automated backup system
-- **Validation Checks**: Data format validation
-- **Consistency Audits**: Regular system checks
-- **Version Control**: Git-based change tracking
-
-### Template Management
-- **Syntax Validation**: Template syntax checking
-- **Testing**: Regular template testing
-- **Documentation**: Clear template documentation
-- **Versioning**: Template version control
-
-### Error Monitoring
-- **Logging**: Comprehensive error logging
-- **Alerting**: Real-time error notifications
-- **Metrics**: Error rate monitoring
-- **Reporting**: Regular error reports
-
-## 🚨 Emergency Procedures
-
-### Complete System Reset
-
-**When to Use**:
-- Complete system failure
-- Data corruption across stages
-- Template system failure
-
-**Steps**:
-1. **Backup Everything**:
-   ```bash
-   tar -czf full_backup_$(date +%Y%m%d_%H%M%S).tar.gz FULLSTACK_TEMPLATES/
-   ```
-
-2. **Reset All Stages**:
-   ```bash
-   echo "RESET_STAGE: ALL" >> ROADMAP.md
-   ```
-
-3. **Restore from Clean State**:
-   ```bash
-   git checkout HEAD -- FULLSTACK_TEMPLATES/
-   ```
-
-4. **Reinitialize System**:
-   - Start with Stage 1
-   - Rebuild all stages
-   - Validate system
-
-### Data Migration
-
-**When to Use**:
-- Template system updates
-- Format changes
-- Version upgrades
-
-**Steps**:
-1. **Export Current Data**:
-   - Export all stage data
-   - Create migration scripts
-   - Backup current state
-
-2. **Update Templates**:
-   - Install new templates
-   - Update configuration
-   - Test new system
-
-3. **Migrate Data**:
-   - Run migration scripts
-   - Validate migrated data
-   - Test functionality
-
-4. **Verify System**:
-   - Test all stages
-   - Validate outputs
-   - Confirm functionality
-
-## 📞 Support Procedures
-
-### Self-Service Support
-1. **Check Documentation**: Review relevant guides
-2. **Search Error Logs**: Look for similar issues
-3. **Try Recovery Procedures**: Use provided solutions
-4. **Validate System**: Check system state
-
-### Escalation Process
-1. **Document Issue**: Record error details
-2. **Gather Information**: Collect relevant data
-3. **Contact Support**: Reach out for help
-4. **Provide Context**: Share error details
-
-### Information to Provide
-- **Error Messages**: Complete error text
-- **System State**: Current stage and status
-- **Recent Changes**: What was modified
-- **Expected Behavior**: What should happen
-- **Actual Behavior**: What actually happened
-
-## 📊 Monitoring and Metrics
-
-### Error Tracking
-- **Error Rate**: Percentage of failed operations
-- **Error Types**: Categorization of errors
-- **Recovery Time**: Time to resolve issues
-- **Success Rate**: Percentage of successful operations
-
-### Performance Metrics
-- **Response Time**: Time to complete operations
-- **Throughput**: Operations per unit time
-- **Resource Usage**: System resource consumption
-- **Availability**: System uptime percentage
-
-### Quality Metrics
-- **Data Integrity**: Percentage of valid data
-- **Template Accuracy**: Template success rate
-- **User Satisfaction**: User feedback scores
-- **System Reliability**: Overall system stability
+> **Emergency procedures and recovery strategies for each stage**
 
 ---
 
-**Last Updated**: [Auto-updated timestamp]
-**Next Review**: [Auto-scheduled based on current stage]
+## 🔄 General Recovery Principles
+
+1. **Always backup before reset**
+2. **Document what went wrong**
+3. **Use entry questions to recalibrate**
+4. **Don't skip safety checks**
+5. **Ask for clarification if unsure**
+
+---
+
+## 🆘 Stage 01: Requirements & Planning
+
+### Common Issues
+- ❌ Requirements too vague
+- ❌ User stories incomplete
+- ❌ Scope keeps changing
+
+### Recovery Steps
+1. Run: `RESET_STAGE 01`
+2. Answer entry questions more specifically
+3. Use pseudo-code dialogue to clarify gaps
+4. Document scope changes in ROADMAP.md
+5. Re-generate templates with refined answers
+
+### Fallback Questions
+- "What EXACTLY should the system do first?"
+- "What are the MUST-HAVE features vs NICE-TO-HAVE?"
+- "Who are the primary users?"
+
+---
+
+## 🆘 Stage 02: System & Architecture
+
+### Common Issues
+- ❌ Endpoints spec incomplete
+- ❌ Architecture unclear
+- ❌ Tech stack incompatible
+
+### Recovery Steps
+1. Review REQUIREMENTS_TEMPLATE output
+2. Use TECH_STACK_TEMPLATE to reevaluate choices
+3. Consult pseudo-code dialogue for architectural decisions
+4. Update ENDPOINTS_SPEC.md with corrections
+5. Re-run with corrected parameters
+
+### Fallback Questions
+- "What are your hosting constraints?"
+- "What's your team's expertise?"
+- "What's the expected load?"
+
+---
+
+## 🆘 Stage 03: Project Flow
+
+### Common Issues
+- ❌ Flow missing screens
+- ❌ Interactions undefined
+- ❌ State management unclear
+
+### Recovery Steps
+1. Review user stories from Stage 01
+2. Check ENDPOINTS_SPEC.md for API contracts
+3. Use INTERACTION_LOGIC_TEMPLATE to fill gaps
+4. Walk through flows manually
+5. Update FLOW_DIAGRAM_TEMPLATE
+
+### Fallback Questions
+- "What happens when user clicks X?"
+- "Where does data come from?"
+- "What's the error handling flow?"
+
+---
+
+## 🆘 Stage 04: Backend TDD Planning
+
+### Common Issues
+- ❌ Test cases incomplete
+- ❌ API contracts violated
+- ❌ TDD strategy unclear
+
+### Recovery Steps
+1. Review ENDPOINTS_SPEC.md thoroughly
+2. Use TDD_PLAN_TEMPLATE to structure tests
+3. Ensure test cases cover all edge cases
+4. Verify API design matches contracts
+5. Re-generate with corrections
+
+### Fallback Questions
+- "What should fail gracefully?"
+- "What are the success/error responses?"
+- "How do we handle edge cases?"
+
+---
+
+## 🆘 Stage 05: Frontend TDD Planning
+
+### Common Issues
+- ❌ Component structure wrong
+- ❌ UI flow missing states
+- ❌ Accessibility overlooked
+
+### Recovery Steps
+1. Review flow diagrams from Stage 03
+2. Use COMPONENT_STRUCTURE_TEMPLATE to reorganize
+3. Map all UI states (loading, error, success)
+4. Add accessibility requirements
+5. Re-plan component hierarchy
+
+### Fallback Questions
+- "What happens while data loads?"
+- "How do errors display?"
+- "What's the mobile experience?"
+
+---
+
+## 🆘 Stage 06: Database Design
+
+### Common Issues
+- ❌ Schema incomplete
+- ❌ Relations missing
+- ❌ Indexes not planned
+
+### Recovery Steps
+1. Review data models from Stage 02
+2. Check requirements for all entities
+3. Use SCHEMA_AND_RELATIONS_TEMPLATE
+4. Add indexes for performance
+5. Plan migrations carefully
+
+### Fallback Questions
+- "What entities need relations?"
+- "What queries need optimization?"
+- "How will data scale?"
+
+---
+
+## 🆘 Stage 07: QA & Testing Strategy
+
+### Common Issues
+- ❌ Test coverage too low
+- ❌ E2E scenarios missing
+- ❌ Test data strategy unclear
+
+### Recovery Steps
+1. Review all TDD plans from Stages 04 & 05
+2. Use INTEGRATION_TEST_PLAN_TEMPLATE
+3. Add edge case scenarios
+4. Define test data strategy
+5. Set coverage thresholds
+
+### Fallback Questions
+- "What flows are critical?"
+- "What data do we need?"
+- "How do we test edge cases?"
+
+---
+
+## 🆘 Stage 08: Implementation
+
+### Common Issues
+- ❌ Tests failing
+- ❌ Code not matching TDD plans
+- ❌ Integration problems
+
+### Recovery Steps
+1. **Don't skip tests** - Fix before proceeding
+2. Review TDD plans from Stages 04 & 05
+3. Run tests after each feature
+4. Use CODE_REVIEW_TEMPLATE if quality is low
+5. Fix integration issues incrementally
+
+### Critical Recovery Commands
+```bash
+# Run tests
+npm test
+
+# Check coverage
+npm run test:coverage
+
+# Run linter
+npm run lint
+
+# Fix and re-test
+```
+
+### Fallback Questions
+- "Which tests are failing and why?"
+- "Does implementation match TDD plan?"
+- "Have you run tests after each change?"
+
+---
+
+## 🆘 Stage 09: Deployment
+
+### Common Issues
+- ❌ CI/CD pipeline failing
+- ❌ Environment issues
+- ❌ Deployment scripts broken
+
+### Recovery Steps
+1. Check GitHub Actions logs
+2. Test deployment scripts locally
+3. Verify environment variables
+4. Run smoke tests manually
+5. Fix and re-deploy incrementally
+
+### Critical Recovery Commands
+```bash
+# Test locally first
+npm run build
+npm test
+
+# Check environment
+echo $NODE_ENV
+
+# Test deployment script
+./deploy.sh --dry-run
+```
+
+### Fallback Questions
+- "What environment is failing?"
+- "Are all secrets configured?"
+- "Did smoke tests pass?"
+
+---
+
+## 🔄 RESET_STAGE Command
+
+Use this when you need to start a stage over:
+
+**Usage:**
+```
+RESET_STAGE [stage_number]
+```
+
+**Example:**
+```
+RESET_STAGE 04
+```
+
+**What it does:**
+1. Creates backup of current stage
+2. Clears stage-specific files
+3. Re-asks entry questions
+4. Allows fresh start
+
+**Safety:**
+- Always backs up first
+- Requires confirmation
+- Logs reset in ROADMAP.md
+
+---
+
+## 🛡️ Prevention Strategies
+
+### Before Starting Each Stage
+1. ✅ Previous stage fully complete
+2. ✅ All checklists marked done
+3. ✅ Decisions documented
+4. ✅ No outstanding blockers
+
+### During Each Stage
+1. ✅ Follow TDD principles
+2. ✅ Run tests frequently
+3. ✅ Document decisions
+4. ✅ Review pseudo-dialogues
+
+### After Each Stage
+1. ✅ Complete all checklist items
+2. ✅ Update ROADMAP.md
+3. ✅ Review generated content
+4. ✅ Run final validation
+
+---
+
+## 📞 Emergency Escalation
+
+If you're completely stuck:
+
+1. **Document the problem** in ROADMAP.md
+2. **Identify the blocker** specifically
+3. **Use pseudo-code dialogue** to reason through
+4. **Consult GLOBAL_FALLBACKS** (this file)
+5. **Reset and retry** if needed
+
+---
+
+## 🎯 Recovery Checklist
+
+When recovering from an issue:
+- [ ] Identify root cause
+- [ ] Document in ROADMAP.md
+- [ ] Use appropriate fallback procedure
+- [ ] Re-answer entry questions if needed
+- [ ] Verify with tests/validation
+- [ ] Update GLOBAL_CHECKLIST.md
+- [ ] Continue to next stage
+
+---
+
+**Remember:** It's better to reset and do it right than to proceed with errors.
+

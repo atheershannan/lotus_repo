@@ -1,199 +1,163 @@
-# 📋 REQUIREMENTS TEMPLATE
+# 📋 STAGE 01: REQUIREMENTS & PLANNING TEMPLATE
 
-## 🎯 Project Requirements Document
-
-**Project Name**: [Project Name from Dynamic Questions]
-**Date**: [Current Date]
-**Version**: 1.0
-**Status**: Draft
+> **Generate project requirements and planning documents**
 
 ---
 
-## 📖 Executive Summary
+## 🔍 ENTRY QUESTIONNAIRE
+
+**BEFORE generating any content, answer these questions:**
 
 ### Project Overview
-[Brief description of the project based on dynamic questions]
+1. **What is the name of your project?**
+   - Example: "E-commerce Marketplace"
 
-### Key Objectives
-- [Primary objective from dynamic questions]
-- [Secondary objectives from dynamic questions]
-- [Success criteria from dynamic questions]
+2. **What problem does this project solve?**
+   - Be specific about the pain point
+   - Example: "Small businesses need a platform to sell products online without technical expertise"
 
-### Target Timeline
-- **Start Date**: [Current date]
-- **Target Completion**: [Timeline from dynamic questions]
-- **Duration**: [Calculated duration]
+3. **Who is the target audience?**
+   - Specific user groups
+   - Demographics if relevant
+   - Example: "Small business owners, age 25-55, non-technical"
 
----
+4. **What are the MUST-HAVE features (MVP)?**
+   - List 3-5 critical features
+   - Be specific, not vague
+   - Example: "User can create account, upload products, process payments"
 
-## 👥 Stakeholders
+5. **What are NICE-TO-HAVE features (for later)?**
+   - Features that enhance but aren't essential
+   - Example: "Advanced analytics, social media integration"
 
-### Primary Users
-- **User Type**: [Primary users from dynamic questions]
-- **Demographics**: [User demographics from dynamic questions]
-- **Use Context**: [Use context from dynamic questions]
+6. **What are the technical constraints?**
+   - Budget limitations
+   - Timeline constraints
+   - Team size/expertise
+   - Example: "Budget: $0 (open source stack only), Timeline: 3 months"
 
-### Secondary Users
-- [Additional user types if applicable]
+7. **Will this project have user authentication?**
+   - Yes/No
+   - If yes, what type?
+   - Example: "Yes, JWT-based auth with email/password"
 
-### Project Team
-- **Product Owner**: [Name]
-- **Development Team**: [Team members]
-- **Stakeholders**: [Other stakeholders]
+8. **What data will be stored?**
+   - Main entities
+   - Example: "User profiles, Products, Orders, Payments"
 
----
+9. **Will this project handle payments?**
+   - Yes/No
+   - If yes, what payment methods?
+   - Example: "Yes, credit card processing via Stripe"
 
-## 🎯 Functional Requirements
-
-### Core Features
-Based on the dynamic questions, here are the core features:
-
-#### Feature 1: [Feature 1 from dynamic questions]
-- **Description**: [Detailed description]
-- **User Story**: As a [user type], I want [functionality] so that [benefit]
-- **Acceptance Criteria**:
-  - [ ] [Specific criterion 1]
-  - [ ] [Specific criterion 2]
-  - [ ] [Specific criterion 3]
-
-#### Feature 2: [Feature 2 from dynamic questions]
-- **Description**: [Detailed description]
-- **User Story**: As a [user type], I want [functionality] so that [benefit]
-- **Acceptance Criteria**:
-  - [ ] [Specific criterion 1]
-  - [ ] [Specific criterion 2]
-  - [ ] [Specific criterion 3]
-
-#### Feature 3: [Feature 3 from dynamic questions]
-- **Description**: [Detailed description]
-- **User Story**: As a [user type], I want [functionality] so that [benefit]
-- **Acceptance Criteria**:
-  - [ ] [Specific criterion 1]
-  - [ ] [Specific criterion 2]
-  - [ ] [Specific criterion 3]
-
-### Additional Features
-[Add any additional features identified during the process]
+10. **What devices should this support?**
+    - Desktop only
+    - Mobile responsive
+    - Native mobile apps
+    - Example: "Responsive web app (desktop + mobile)"
 
 ---
 
-## 🚀 Non-Functional Requirements
+## 📝 TEMPLATE GENERATION INSTRUCTIONS
 
-### Performance Requirements
-- **Response Time**: [Specify acceptable response times]
-- **Throughput**: [Specify expected user load]
-- **Scalability**: [Specify scaling requirements]
+Based on your answers, generate:
 
-### Security Requirements
-- **Authentication**: [Specify authentication requirements]
-- **Authorization**: [Specify access control requirements]
-- **Data Protection**: [Specify data security requirements]
+### 1. Requirements Document
+**File:** `requirements.md`
 
-### Usability Requirements
-- **User Interface**: [Specify UI requirements]
-- **Accessibility**: [Specify accessibility requirements]
-- **Mobile Support**: [Specify mobile requirements]
+Structure:
+```markdown
+# Project Requirements
 
-### Reliability Requirements
-- **Uptime**: [Specify uptime requirements]
-- **Error Handling**: [Specify error handling requirements]
-- **Backup**: [Specify backup requirements]
+## Project Overview
+- **Name:** [From Q1]
+- **Problem Statement:** [From Q2]
+- **Target Audience:** [From Q3]
+- **Timeline:** [From Q6]
 
----
+## MVP Features (Must-Have)
+1. [Feature from Q4.1]
+2. [Feature from Q4.2]
+3. [Feature from Q4.3]
+4. [Feature from Q4.4]
+5. [Feature from Q4.5]
 
-## 📊 Success Criteria
+## Future Features (Nice-to-Have)
+1. [Feature from Q5.1]
+2. [Feature from Q5.2]
+...
 
-### Primary Success Metrics
-- [Primary goal from dynamic questions]
-- [Success metrics from dynamic questions]
+## Technical Constraints
+- [Constraint from Q6]
+...
 
-### Key Performance Indicators (KPIs)
-- **User Engagement**: [Specify engagement metrics]
-- **Performance**: [Specify performance metrics]
-- **Quality**: [Specify quality metrics]
+## Success Criteria
+- [How will you measure success]
+...
+```
 
-### Acceptance Criteria
-- [ ] All functional requirements implemented
-- [ ] All non-functional requirements met
-- [ ] User acceptance testing passed
-- [ ] Performance benchmarks achieved
-- [ ] Security requirements satisfied
+### 2. Stakeholder Summary
+**File:** `stakeholders.md`
 
----
+Include:
+- Primary stakeholders
+- Decision makers
+- End users
+- Technical team
 
-## 🚧 Constraints and Assumptions
+### 3. Assumptions Document
+**File:** `assumptions.md`
 
-### Technical Constraints
-[Technical constraints from dynamic questions]
+List assumptions about:
+- User behavior
+- Technical environment
+- Business context
 
-### Budget Constraints
-[Budget constraints from dynamic questions]
+### 4. Constraints & Risks
+**File:** `constraints_and_risks.md`
 
-### Time Constraints
-[Time constraints from dynamic questions]
-
-### Other Constraints
-[Other constraints from dynamic questions]
-
-### Key Assumptions
-- [Assumption 1]
-- [Assumption 2]
-- [Assumption 3]
-
----
-
-## 📋 Project Scope
-
-### In Scope
-- [Feature 1 from dynamic questions]
-- [Feature 2 from dynamic questions]
-- [Feature 3 from dynamic questions]
-- [Additional in-scope items]
-
-### Out of Scope
-- [Items explicitly not included]
-- [Future considerations]
-- [Nice-to-have features]
-
-### Future Considerations
-- [Potential future features]
-- [Scalability considerations]
-- [Enhancement opportunities]
+Document:
+- Technical constraints
+- Budget constraints
+- Timeline risks
+- Technical risks
 
 ---
 
-## 🔄 Change Management
+## ✅ VALIDATION CHECKLIST
 
-### Change Control Process
-1. **Change Request**: Submit formal change request
-2. **Impact Analysis**: Assess impact on scope, timeline, and budget
-3. **Approval**: Get stakeholder approval
-4. **Implementation**: Implement approved changes
-5. **Documentation**: Update requirements document
-
-### Change Request Template
-- **Change Description**: [What needs to change]
-- **Justification**: [Why the change is needed]
-- **Impact Assessment**: [Impact on project]
-- **Approval**: [Stakeholder approval]
+Before proceeding to Stage 02, verify:
+- [ ] Requirements document is complete
+- [ ] All MVP features clearly defined
+- [ ] Target audience specified
+- [ ] Success criteria established
+- [ ] Constraints documented
+- [ ] Assumptions listed
+- [ ] Entry questions answered
 
 ---
 
-## 📚 Appendices
+## 🔄 PSEUDO-CODE DIALOGUE
 
-### Glossary
-- **Term 1**: [Definition]
-- **Term 2**: [Definition]
-- **Term 3**: [Definition]
+Generate a conversation between:
+- **Architect:** "Based on these requirements, we need to consider [technical decision]"
+- **Product Owner:** "Yes, but also we must ensure [business requirement]"
+- **Team Lead:** "Given constraints, I suggest [approach]"
 
-### References
-- [Reference 1]
-- [Reference 2]
-- [Reference 3]
+**Purpose:** Surface hidden requirements and validate approach
 
 ---
 
-**Document Status**: [Draft/Review/Approved]
-**Last Updated**: [Date]
-**Next Review**: [Date]
-**Approved By**: [Name and Title]
+## 🚦 NEXT STAGE
+
+Once requirements are complete and validated:
+→ Proceed to **Stage 02: System & Architecture**
+
+**Unlock Condition:** All checklist items in `CHECKLIST.md` must be ✅
+
+---
+
+**Template Version:** 1.0.0  
+**Stage:** 01/09  
+**Next:** Stage 02 - System & Architecture
+
